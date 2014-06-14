@@ -153,11 +153,6 @@ class TwentyFortyEight:
         self.width = grid_width
         self.cells = {}
         self.ini_tiles = get_ini_tiles(self.width, self.height)
-
-        for each_row in range(self.height):
-            cell_row = [0] * self.width
-            self.cells.append(cell_row)
-
         self.reset()
 
     def reset(self):
@@ -166,7 +161,7 @@ class TwentyFortyEight:
         """
         for row in range(self.height):
             for col in range(self.width):
-                self.cells[row][col] = 0
+                self.cells[(row, col)] = self.cells.get((row, col), 0)
 
     def __str__(self):
         """
@@ -174,7 +169,14 @@ class TwentyFortyEight:
         """
         string = ""
         for row in range(self.height):
-            string += str(self.cells[row]) + "\n"
+            # literate to 1 element before the end
+            for col in range(self.width):
+                # this is the end of the line
+                if col == self.width - 1:
+                    string += str(self.cells[(row, col)]) + "\n"
+                # otherwise separated by ", ". so there will be no ", " at the end of each line
+                else:
+                    string += str(self.cells[(row, col)]) + ", "
 
         return string
 
@@ -199,10 +201,30 @@ class TwentyFortyEight:
         """
         for each in self.ini_tiles[direction]:
             temp_ls = []
-            temp_ls[r] += OFFSETS[direction]
 
+            target_row = each[0]
+            target_col = each[1]
+
+            # add cells to the list until the index exceeds
+            while (target_row, target_col) in self.cells:
+                temp_ls.append(self.cells[(target_row, target_col)])
+                target_row += OFFSETS[direction][0]
+                target_col += OFFSETS[direction][1]
+
+            # merge the line
             temp_ls = merge(temp_ls)
 
+            # traverse the cells again
+            target_row = each[0]
+            target_col = each[1]
+            ls_index = 0
+
+            # add cells to the list until the index exceeds
+            while (target_row, target_col) in self.cells:
+                self.cells[(target_row, target_col)] = temp_ls[ls_index]
+                target_row += OFFSETS[direction][0]
+                target_col += OFFSETS[direction][1]
+                ls_index += 1
 
     def new_tile(self):
         """
@@ -216,30 +238,48 @@ class TwentyFortyEight:
         """
         Set the tile at position row, col to have the given value.
         """
-        self.cells[row][col] = value
+        self.cells[(row, col)] = value
 
     def get_tile(self, row, col):
         """
         Return the value of the tile at position row, col.
         """
-        return self.cells[row][col]
+        return self.cells[(row, col)]
 
 
+test_grid = TwentyFortyEight(4, 4)
+print test_grid
 
+test_grid.set_tile(0, 0, 4)
+test_grid.set_tile(0, 1, 2)
+test_grid.set_tile(0, 2, 2)
+test_grid.set_tile(0, 3, 2)
+test_grid.set_tile(1, 0, 0)
+test_grid.set_tile(1, 1, 0)
+test_grid.set_tile(1, 2, 2)
+test_grid.set_tile(1, 3, 8)
+test_grid.set_tile(2, 0, 4)
+test_grid.set_tile(2, 1, 2)
+test_grid.set_tile(2, 2, 2)
+test_grid.set_tile(2, 3, 8)
+test_grid.set_tile(3, 0, 0)
+test_grid.set_tile(3, 1, 2)
+test_grid.set_tile(3, 2, 0)
+test_grid.set_tile(3, 3, 4)
 
+print test_grid
 
+test_grid.move(UP)
 
-# test_grid = TwentyFortyEight(3, 3)
-# print test_grid
-#
-# test_grid.set_tile(0, 0, 1)
-# test_grid.set_tile(0, 1, 2)
-# test_grid.set_tile(0, 2, 3)
-# test_grid.set_tile(1, 0, 4)
-# test_grid.set_tile(1, 1, 5)
-# test_grid.set_tile(1, 2, 6)
-#
-# print test_grid
+print test_grid
+
+test_grid.move(RIGHT)
+
+print test_grid
+
+test_grid.move(RIGHT)
+
+print test_grid
 
 
 # poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
