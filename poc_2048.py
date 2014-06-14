@@ -139,6 +139,7 @@ def get_ini_tiles(wid, hei):
 
     return ini_tiles
 
+
 # test_it = get_ini_tiles(3, 3)
 # print test_it
 
@@ -153,9 +154,17 @@ class TwentyFortyEight:
         self.width = grid_width
         self.cells = {}
         self.ini_tiles = get_ini_tiles(self.width, self.height)
-        self.reset()
+        self.ini_cells()
 
     def reset(self):
+        """
+        Reset the game so the grid is empty.
+        """
+        for row in range(self.height):
+            for col in range(self.width):
+                self.cells[(row, col)] = 0
+
+    def ini_cells(self):
         """
         Reset the game so the grid is empty.
         """
@@ -299,5 +308,9 @@ test_grid.move(RIGHT)
 
 print test_grid
 
+test_grid.reset()
 
-# poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
+print test_grid
+
+
+    # poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
