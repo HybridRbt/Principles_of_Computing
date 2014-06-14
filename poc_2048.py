@@ -50,6 +50,7 @@ def merge(line):
 
     return re
 
+
 # line = [2, 0, 2, 2]
 # test = st.TestSuite()
 # test.run_test(merge(line), [2, 2, 2, 0], "Test Merge")
@@ -92,36 +93,47 @@ class TwentyFortyEight:
     """
 
     def __init__(self, grid_height, grid_width):
-        # replace with your code
-        pass
+        self.height = grid_height
+        self.width = grid_width
+        self.cells = []
+
+        for each_row in range(self.height):
+            cell_row = [0] * self.width
+            self.cells.append(cell_row)
+
+        self.reset()
 
     def reset(self):
         """
         Reset the game so the grid is empty.
         """
-        # replace with your code
-        pass
+        for row in range(self.height):
+            for col in range(self.width):
+                self.cells[row][col] = 0
 
     def __str__(self):
         """
         Return a string representation of the grid for debugging.
         """
-        # replace with your code
-        pass
+        string = ""
+        for row in range(self.height):
+            string += str(self.cells[row]) + "\n"
+
+        return string
 
     def get_grid_height(self):
         """
         Get the height of the board.
         """
         # replace with your code
-        return 0
+        return self.height
 
     def get_grid_width(self):
         """
         Get the width of the board.
         """
         # replace with your code
-        return 0
+        return self.width
 
     def move(self, direction):
         """
@@ -144,15 +156,26 @@ class TwentyFortyEight:
         """
         Set the tile at position row, col to have the given value.
         """
-        # replace with your code
-        pass
+        self.cells[row][col] = value
 
     def get_tile(self, row, col):
         """
         Return the value of the tile at position row, col.
         """
-        # replace with your code
-        return 0
+        return self.cells[row][col]
+
+
+test_grid = TwentyFortyEight(3, 3)
+print test_grid
+
+test_grid.set_tile(0, 0, 1)
+test_grid.set_tile(0, 1, 2)
+test_grid.set_tile(0, 2, 3)
+test_grid.set_tile(1, 0, 4)
+test_grid.set_tile(1, 1, 5)
+test_grid.set_tile(1, 2, 6)
+
+print test_grid
 
 
 # poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
