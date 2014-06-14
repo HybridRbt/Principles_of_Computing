@@ -27,6 +27,7 @@ def merge(line):
     """
     # 1. Start with a result list that contains the same number of 0's as the length of the line argument.
     re = [0] * len(line)
+    last_merged = False
 
     # 2. Iterate over the line input looking for non-zero entries. For each non-zero entry, put the value into the
     # next available entry of the result list (starting at position 0).
@@ -35,7 +36,16 @@ def merge(line):
             for re_index in range(0, len(re)):
                 if re[re_index] == 0:
                     re[re_index] = line[entry_index]
+                    last_merged = False
                     break
+                # if it's not 0
+                else:
+                    # if the two are the same and the last one was not merged
+                    if re[re_index] == line[entry_index] and last_merged is False:
+                        re[re_index] = re[re_index] + line[entry_index]
+                        last_merged = True
+                        break
+
             continue
 
     return re
@@ -43,6 +53,38 @@ def merge(line):
 # line = [2, 0, 2, 2]
 # test = st.TestSuite()
 # test.run_test(merge(line), [2, 2, 2, 0], "Test Merge")
+
+# [2, 0, 2, 4] should return [4, 4, 0, 0]
+# [0, 0, 2, 2] should return [4, 0, 0, 0]
+# [2, 2, 0, 0] should return [4, 0, 0, 0]
+# [2, 2, 2, 2] should return [4, 4, 0, 0]
+# [8, 16, 16, 8] should return [8, 32, 8, 0]
+
+# line = [2, 0, 2, 4]
+# line_expected = [4, 4, 0, 0]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
+#
+# line = [0, 0, 2, 2]
+# line_expected = [4, 0, 0, 0]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
+#
+# line = [2, 2, 0, 0]
+# line_expected = [4, 0, 0, 0]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
+#
+# line = [2, 2, 2, 2]
+# line_expected = [4, 4, 0, 0]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
+#
+# line = [8, 16, 16, 8]
+# line_expected = [8, 32, 8, 0]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
+
 
 class TwentyFortyEight:
     """
