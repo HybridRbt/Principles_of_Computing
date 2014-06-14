@@ -117,18 +117,18 @@ def gen_num():
 def get_ini_tiles(wid, hei):
     ini_tiles = {}
 
-    keys = ["UP", "DOWN", "LEFT", "RIGHT"]
+    keys = [UP, DOWN, LEFT, RIGHT]
 
     # generate initial tiles for UP
     for each_key in keys:
         ls = []
-        if each_key == "UP":
+        if each_key == UP:
             for w in range(wid):
                 ls.append((0, w))
-        elif each_key == "DOWN":
+        elif each_key == DOWN:
             for w in range(wid):
                 ls.append((hei - 1, w))
-        elif each_key == "LEFT":
+        elif each_key == LEFT:
             for w in range(hei):
                 ls.append((w, 0))
         else:
@@ -151,8 +151,8 @@ class TwentyFortyEight:
     def __init__(self, grid_height, grid_width):
         self.height = grid_height
         self.width = grid_width
-        self.cells = []
-        self.ini_tiles = get_ini_tiles()
+        self.cells = {}
+        self.ini_tiles = get_ini_tiles(self.width, self.height)
 
         for each_row in range(self.height):
             cell_row = [0] * self.width
@@ -197,7 +197,12 @@ class TwentyFortyEight:
         Move all tiles in the given direction and add
         a new tile if any tiles moved.
         """
-        pass
+        for each in self.ini_tiles[direction]:
+            temp_ls = []
+            temp_ls[r] += OFFSETS[direction]
+
+            temp_ls = merge(temp_ls)
+
 
     def new_tile(self):
         """
