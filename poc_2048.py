@@ -274,43 +274,43 @@ class TwentyFortyEight:
         return self.cells[(row, col)]
 
 
-test_grid = TwentyFortyEight(4, 4)
-print test_grid
-
-test_grid.set_tile(0, 0, 4)
-test_grid.set_tile(0, 1, 2)
-test_grid.set_tile(0, 2, 2)
-test_grid.set_tile(0, 3, 2)
-test_grid.set_tile(1, 0, 0)
-test_grid.set_tile(1, 1, 0)
-test_grid.set_tile(1, 2, 2)
-test_grid.set_tile(1, 3, 8)
-test_grid.set_tile(2, 0, 4)
-test_grid.set_tile(2, 1, 2)
-test_grid.set_tile(2, 2, 2)
-test_grid.set_tile(2, 3, 8)
-test_grid.set_tile(3, 0, 0)
-test_grid.set_tile(3, 1, 2)
-test_grid.set_tile(3, 2, 0)
-test_grid.set_tile(3, 3, 4)
-
-print test_grid
-
-test_grid.move(UP)
-
-print test_grid
-
-test_grid.move(RIGHT)
-
-print test_grid
-
-test_grid.move(RIGHT)
-
-print test_grid
-
-test_grid.reset()
-
-print test_grid
+# test_grid = TwentyFortyEight(4, 4)
+# print test_grid
+#
+# test_grid.set_tile(0, 0, 4)
+# test_grid.set_tile(0, 1, 2)
+# test_grid.set_tile(0, 2, 2)
+# test_grid.set_tile(0, 3, 2)
+# test_grid.set_tile(1, 0, 0)
+# test_grid.set_tile(1, 1, 0)
+# test_grid.set_tile(1, 2, 2)
+# test_grid.set_tile(1, 3, 8)
+# test_grid.set_tile(2, 0, 4)
+# test_grid.set_tile(2, 1, 2)
+# test_grid.set_tile(2, 2, 2)
+# test_grid.set_tile(2, 3, 8)
+# test_grid.set_tile(3, 0, 0)
+# test_grid.set_tile(3, 1, 2)
+# test_grid.set_tile(3, 2, 0)
+# test_grid.set_tile(3, 3, 4)
+#
+# print test_grid
+#
+# test_grid.move(UP)
+#
+# print test_grid
+#
+# test_grid.move(RIGHT)
+#
+# print test_grid
+#
+# test_grid.move(RIGHT)
+#
+# print test_grid
+#
+# test_grid.reset()
+#
+# print test_grid
 
 
     # poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
