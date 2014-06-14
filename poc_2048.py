@@ -199,6 +199,8 @@ class TwentyFortyEight:
         Move all tiles in the given direction and add
         a new tile if any tiles moved.
         """
+        tile_changed = False
+
         for each in self.ini_tiles[direction]:
             temp_ls = []
 
@@ -221,10 +223,18 @@ class TwentyFortyEight:
 
             # add cells to the list until the index exceeds
             while (target_row, target_col) in self.cells:
+                # if the new value is not equal to original value, the tile must have changed
+                if self.cells[(target_row, target_col)] != temp_ls[ls_index]:
+                    tile_changed = True
+
                 self.cells[(target_row, target_col)] = temp_ls[ls_index]
                 target_row += OFFSETS[direction][0]
                 target_col += OFFSETS[direction][1]
                 ls_index += 1
+
+        # if tile has changed, then must call new_tile
+        if tile_changed:
+            self.new_tile()
 
     def new_tile(self):
         """
@@ -272,14 +282,14 @@ print test_grid
 test_grid.move(UP)
 
 print test_grid
-
-test_grid.move(RIGHT)
-
-print test_grid
-
-test_grid.move(RIGHT)
-
-print test_grid
+#
+# test_grid.move(RIGHT)
+#
+# print test_grid
+#
+# test_grid.move(RIGHT)
+#
+# print test_grid
 
 
 # poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
