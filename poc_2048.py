@@ -5,7 +5,7 @@ Clone of 2048 game.
 """
 
 # import poc_2048_gui
-import poc_simpletest as st
+# import poc_simpletest as st
 import random
 
 # Directions, DO NOT MODIFY
@@ -32,22 +32,27 @@ def merge(line):
 
     # 2. Iterate over the line input looking for non-zero entries. For each non-zero entry, put the value into the
     # next available entry of the result list (starting at position 0).
+    if len(line) < 2:
+        return line
+
     for entry_index in range(0, len(line)):
         if line[entry_index] != 0:
+            # find the start point first
             for re_index in range(0, len(re)):
+                # if it is 0 then can copy safely
                 if re[re_index] == 0:
                     re[re_index] = line[entry_index]
                     last_merged = False
                     break
-                # if it's not 0
-                else:
-                    # if the two are the same and the last one was not merged
+                # if current is not 0 but the next one is, then need to consider merge
+                elif re[re_index + 1] == 0:
+                    # current is the same with incoming one, merge
                     if re[re_index] == line[entry_index] and last_merged is False:
                         re[re_index] = re[re_index] + line[entry_index]
                         last_merged = True
                         break
-
-            continue
+                    # else advance to next iter
+                # if current is not 0 and the next one is not 0, advance to next iter
 
     return re
 
@@ -87,6 +92,35 @@ def merge(line):
 # test = st.TestSuite()
 # test.run_test(merge(line), line_expected, "Test Merge")
 
+# line = [2, 4, 2, 4]
+# line_expected = [2, 4, 2, 4]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
+#
+# line = [2, 0, 0, 0]
+# line_expected = [2, 0, 0, 0]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
+#
+# line = [0, 2, 0, 0]
+# line_expected = [2, 0, 0, 0]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
+#
+# line = [0, 0, 2, 0]
+# line_expected = [2, 0, 0, 0]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
+#
+# line = [0, 0, 0, 2]
+# line_expected = [2, 0, 0, 0]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
+#
+# line = [2, 2, 0, 0]
+# line_expected = [4, 0, 0, 0]
+# test = st.TestSuite()
+# test.run_test(merge(line), line_expected, "Test Merge")
 
 def get_ran_num(up_limit):
     """
@@ -153,6 +187,7 @@ class TwentyFortyEight:
         self.height = grid_height
         self.width = grid_width
         self.cells = {}
+        self.avi_cells = []
         self.ini_tiles = get_ini_tiles(self.width, self.height)
         self.ini_cells()
 
@@ -160,17 +195,21 @@ class TwentyFortyEight:
         """
         Reset the game so the grid is empty.
         """
+        self.avi_cells = []
         for row in range(self.height):
             for col in range(self.width):
                 self.cells[(row, col)] = 0
+                self.avi_cells.append((row, col))
 
     def ini_cells(self):
         """
         Reset the game so the grid is empty.
         """
+        self.avi_cells = []
         for row in range(self.height):
             for col in range(self.width):
                 self.cells[(row, col)] = self.cells.get((row, col), 0)
+                self.avi_cells.append((row, col))
 
     def __str__(self):
         """
@@ -241,8 +280,8 @@ class TwentyFortyEight:
                 target_col += OFFSETS[direction][1]
                 ls_index += 1
 
-        # if tile has changed, then must call new_tile
-        if tile_changed:
+        # if tile has changed, and there is at least one avi cell, then must call new_tile
+        if tile_changed and self.avi_cells:
             self.new_tile()
 
     def new_tile(self):
@@ -266,6 +305,7 @@ class TwentyFortyEight:
         Set the tile at position row, col to have the given value.
         """
         self.cells[(row, col)] = value
+        self.avi_cells.remove((row, col))
 
     def get_tile(self, row, col):
         """
@@ -277,29 +317,29 @@ class TwentyFortyEight:
 # test_grid = TwentyFortyEight(4, 4)
 # print test_grid
 #
-# test_grid.set_tile(0, 0, 4)
-# test_grid.set_tile(0, 1, 2)
-# test_grid.set_tile(0, 2, 2)
-# test_grid.set_tile(0, 3, 2)
+# test_grid.set_tile(0, 0, 2)
+# test_grid.set_tile(0, 1, 0)
+# test_grid.set_tile(0, 2, 0)
+# test_grid.set_tile(0, 3, 0)
 # test_grid.set_tile(1, 0, 0)
-# test_grid.set_tile(1, 1, 0)
-# test_grid.set_tile(1, 2, 2)
-# test_grid.set_tile(1, 3, 8)
-# test_grid.set_tile(2, 0, 4)
-# test_grid.set_tile(2, 1, 2)
+# test_grid.set_tile(1, 1, 2)
+# test_grid.set_tile(1, 2, 0)
+# test_grid.set_tile(1, 3, 0)
+# test_grid.set_tile(2, 0, 0)
+# test_grid.set_tile(2, 1, 0)
 # test_grid.set_tile(2, 2, 2)
-# test_grid.set_tile(2, 3, 8)
+# test_grid.set_tile(2, 3, 0)
 # test_grid.set_tile(3, 0, 0)
-# test_grid.set_tile(3, 1, 2)
+# test_grid.set_tile(3, 1, 0)
 # test_grid.set_tile(3, 2, 0)
-# test_grid.set_tile(3, 3, 4)
+# test_grid.set_tile(3, 3, 2)
 #
 # print test_grid
 #
 # test_grid.move(UP)
 #
 # print test_grid
-#
+
 # test_grid.move(RIGHT)
 #
 # print test_grid
