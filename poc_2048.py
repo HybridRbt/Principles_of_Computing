@@ -136,10 +136,10 @@ def generate_value():
     :return:
     """
     # get the probability
-    p = random.random()
+    prob = random.random()
 
     # 10% chance p < 0.1, that's when we return 2
-    if p < 0.1:
+    if prob < 0.1:
         return 4
     # otherwise return 2
     else:
@@ -147,27 +147,33 @@ def generate_value():
 
 
 def get_initial_tiles(wid, hei):
+    """
+    get the initial tile dictionary for the defined width and height
+    :param wid: width
+    :param hei: height
+    :return:
+    """
     ini_tiles = {}
 
     keys = [UP, DOWN, LEFT, RIGHT]
 
     # generate initial tiles for UP
     for each_key in keys:
-        ls = []
+        tile_ls = []
         if each_key == UP:
-            for w in range(wid):
-                ls.append((0, w))
+            for each_value in range(wid):
+                tile_ls.append((0, each_value))
         elif each_key == DOWN:
-            for w in range(wid):
-                ls.append((hei - 1, w))
+            for each_value in range(wid):
+                tile_ls.append((hei - 1, each_value))
         elif each_key == LEFT:
-            for w in range(hei):
-                ls.append((w, 0))
+            for each_value in range(hei):
+                tile_ls.append((each_value, 0))
         else:
-            for w in range(hei):
-                ls.append((w, wid - 1))
+            for each_value in range(hei):
+                tile_ls.append((each_value, wid - 1))
 
-        ini_tiles[each_key] = ini_tiles.get(each_key, ls)
+        ini_tiles[each_key] = ini_tiles.get(each_key, tile_ls)
 
     return ini_tiles
 
