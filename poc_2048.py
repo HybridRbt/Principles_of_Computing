@@ -242,7 +242,15 @@ class TwentyFortyEight:
         square.  The tile should be 2 90% of the time and
         4 10% of the time.
         """
-        self.set_tile(get_ran_num(self.height), get_ran_num(self.width), gen_num())
+        new_row = get_ran_num(self.height)
+        new_col = get_ran_num(self.width)
+
+        # cannot pick a (row, col) where there is already a tile with valid value
+        while self.get_tile(new_row, new_col) != 0:
+            new_row = get_ran_num(self.height)
+            new_col = get_ran_num(self.width)
+
+        self.set_tile(new_row, new_col, gen_num())
 
     def set_tile(self, row, col, value):
         """
@@ -282,14 +290,14 @@ print test_grid
 test_grid.move(UP)
 
 print test_grid
-#
-# test_grid.move(RIGHT)
-#
-# print test_grid
-#
-# test_grid.move(RIGHT)
-#
-# print test_grid
+
+test_grid.move(RIGHT)
+
+print test_grid
+
+test_grid.move(RIGHT)
+
+print test_grid
 
 
 # poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
