@@ -1,5 +1,3 @@
-__author__ = 'jeredyang'
-
 """
 Clone of 2048 game.
 """
@@ -27,7 +25,7 @@ def merge(line):
     Helper function that merges a single row or column in 2048
     """
     # 1. Start with a result list that contains the same number of 0's as the length of the line argument.
-    re = [0] * len(line)
+    result = [0] * len(line)
     last_merged = False
 
     # 2. Iterate over the line input looking for non-zero entries. For each non-zero entry, put the value into the
@@ -38,23 +36,23 @@ def merge(line):
     for entry_index in range(0, len(line)):
         if line[entry_index] != 0:
             # find the start point first
-            for re_index in range(0, len(re)):
+            for re_index in range(0, len(result)):
                 # if it is 0 then can copy safely
-                if re[re_index] == 0:
-                    re[re_index] = line[entry_index]
+                if result[re_index] == 0:
+                    result[re_index] = line[entry_index]
                     last_merged = False
                     break
                 # if current is not 0 but the next one is, then need to consider merge
-                elif re[re_index + 1] == 0:
+                elif result[re_index + 1] == 0:
                     # current is the same with incoming one, merge
-                    if re[re_index] == line[entry_index] and last_merged is False:
-                        re[re_index] = re[re_index] + line[entry_index]
+                    if result[re_index] == line[entry_index] and last_merged is False:
+                        result[re_index] = result[re_index] + line[entry_index]
                         last_merged = True
                         break
-                    # else advance to next iter
-                # if current is not 0 and the next one is not 0, advance to next iter
+                        # else advance to next iter
+                        # if current is not 0 and the next one is not 0, advance to next iter
 
-    return re
+    return result
 
 
 # line = [2, 0, 2, 2]
@@ -132,7 +130,7 @@ def get_ran_num(up_limit):
     return num
 
 
-def gen_num():
+def generate_value():
     """
     generate a 2 or 4. with 10% chance of getting a 4 and 90% chance of getting a 2
     :return:
@@ -148,7 +146,7 @@ def gen_num():
         return 2
 
 
-def get_ini_tiles(wid, hei):
+def get_initial_tiles(wid, hei):
     ini_tiles = {}
 
     keys = [UP, DOWN, LEFT, RIGHT]
@@ -188,7 +186,7 @@ class TwentyFortyEight:
         self.width = grid_width
         self.cells = {}
         self.avi_cells = []
-        self.ini_tiles = get_ini_tiles(self.width, self.height)
+        self.ini_tiles = get_initial_tiles(self.width, self.height)
         self.ini_cells()
 
     def reset(self):
@@ -281,7 +279,7 @@ class TwentyFortyEight:
                 ls_index += 1
 
         # if tile has changed, and there is at least one avi cell, then must call new_tile
-        if tile_changed and self.avi_cells:
+        if tile_changed:
             self.new_tile()
 
     def new_tile(self):
@@ -298,7 +296,7 @@ class TwentyFortyEight:
             new_row = get_ran_num(self.height)
             new_col = get_ran_num(self.width)
 
-        self.set_tile(new_row, new_col, gen_num())
+        self.cells[(new_row, new_col)] = generate_value()
 
     def set_tile(self, row, col, value):
         """
@@ -314,43 +312,43 @@ class TwentyFortyEight:
         return self.cells[(row, col)]
 
 
-# test_grid = TwentyFortyEight(4, 4)
-# print test_grid
-#
-# test_grid.set_tile(0, 0, 2)
-# test_grid.set_tile(0, 1, 0)
-# test_grid.set_tile(0, 2, 0)
-# test_grid.set_tile(0, 3, 0)
-# test_grid.set_tile(1, 0, 0)
-# test_grid.set_tile(1, 1, 2)
-# test_grid.set_tile(1, 2, 0)
-# test_grid.set_tile(1, 3, 0)
-# test_grid.set_tile(2, 0, 0)
-# test_grid.set_tile(2, 1, 0)
-# test_grid.set_tile(2, 2, 2)
-# test_grid.set_tile(2, 3, 0)
-# test_grid.set_tile(3, 0, 0)
-# test_grid.set_tile(3, 1, 0)
-# test_grid.set_tile(3, 2, 0)
-# test_grid.set_tile(3, 3, 2)
-#
-# print test_grid
-#
-# test_grid.move(UP)
-#
-# print test_grid
+    # test_grid = TwentyFortyEight(4, 4)
+    # print test_grid
+    #
+    # test_grid.set_tile(0, 0, 2)
+    # test_grid.set_tile(0, 1, 0)
+    # test_grid.set_tile(0, 2, 0)
+    # test_grid.set_tile(0, 3, 0)
+    # test_grid.set_tile(1, 0, 0)
+    # test_grid.set_tile(1, 1, 2)
+    # test_grid.set_tile(1, 2, 0)
+    # test_grid.set_tile(1, 3, 0)
+    # test_grid.set_tile(2, 0, 0)
+    # test_grid.set_tile(2, 1, 0)
+    # test_grid.set_tile(2, 2, 2)
+    # test_grid.set_tile(2, 3, 0)
+    # test_grid.set_tile(3, 0, 0)
+    # test_grid.set_tile(3, 1, 0)
+    # test_grid.set_tile(3, 2, 0)
+    # test_grid.set_tile(3, 3, 2)
+    #
+    # print test_grid
+    #
+    # test_grid.move(UP)
+    #
+    # print test_grid
 
-# test_grid.move(RIGHT)
-#
-# print test_grid
-#
-# test_grid.move(RIGHT)
-#
-# print test_grid
-#
-# test_grid.reset()
-#
-# print test_grid
+    # test_grid.move(RIGHT)
+    #
+    # print test_grid
+    #
+    # test_grid.move(RIGHT)
+    #
+    # print test_grid
+    #
+    # test_grid.reset()
+    #
+    # print test_grid
 
 
     # poc_2048_gui.run_gui(TwentyFortyEight(4, 4))
