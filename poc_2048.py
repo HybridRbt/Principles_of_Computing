@@ -6,6 +6,7 @@ Clone of 2048 game.
 
 # import poc_2048_gui
 import poc_simpletest as st
+import random
 
 # Directions, DO NOT MODIFY
 UP = 1
@@ -87,6 +88,61 @@ def merge(line):
 # test.run_test(merge(line), line_expected, "Test Merge")
 
 
+def get_ran_num(up_limit):
+    """
+    randomly pick a row or col number
+    :param up_limit: limited by current row or col
+    :return:
+    """
+    num = random.randrange(0, up_limit)
+    return num
+
+
+def gen_num():
+    """
+    generate a 2 or 4. with 10% chance of getting a 4 and 90% chance of getting a 2
+    :return:
+    """
+    # get the probability
+    p = random.random()
+
+    # 10% chance p < 0.1, that's when we return 2
+    if p < 0.1:
+        return 4
+    # otherwise return 2
+    else:
+        return 2
+
+
+def get_ini_tiles(wid, hei):
+    ini_tiles = {}
+
+    keys = ["UP", "DOWN", "LEFT", "RIGHT"]
+
+    # generate initial tiles for UP
+    for each_key in keys:
+        ls = []
+        if each_key == "UP":
+            for w in range(wid):
+                ls.append((0, w))
+        elif each_key == "DOWN":
+            for w in range(wid):
+                ls.append((hei - 1, w))
+        elif each_key == "LEFT":
+            for w in range(hei):
+                ls.append((w, 0))
+        else:
+            for w in range(hei):
+                ls.append((w, wid - 1))
+
+        ini_tiles[each_key] = ini_tiles.get(each_key, ls)
+
+    return ini_tiles
+
+# test_it = get_ini_tiles(3, 3)
+# print test_it
+
+
 class TwentyFortyEight:
     """
     Class to run the game logic.
@@ -96,6 +152,7 @@ class TwentyFortyEight:
         self.height = grid_height
         self.width = grid_width
         self.cells = []
+        self.ini_tiles = get_ini_tiles()
 
         for each_row in range(self.height):
             cell_row = [0] * self.width
@@ -140,7 +197,6 @@ class TwentyFortyEight:
         Move all tiles in the given direction and add
         a new tile if any tiles moved.
         """
-        # replace with your code
         pass
 
     def new_tile(self):
@@ -149,8 +205,7 @@ class TwentyFortyEight:
         square.  The tile should be 2 90% of the time and
         4 10% of the time.
         """
-        # replace with your code
-        pass
+        self.set_tile(get_ran_num(self.height), get_ran_num(self.width), gen_num())
 
     def set_tile(self, row, col, value):
         """
@@ -165,17 +220,21 @@ class TwentyFortyEight:
         return self.cells[row][col]
 
 
-test_grid = TwentyFortyEight(3, 3)
-print test_grid
 
-test_grid.set_tile(0, 0, 1)
-test_grid.set_tile(0, 1, 2)
-test_grid.set_tile(0, 2, 3)
-test_grid.set_tile(1, 0, 4)
-test_grid.set_tile(1, 1, 5)
-test_grid.set_tile(1, 2, 6)
 
-print test_grid
+
+
+# test_grid = TwentyFortyEight(3, 3)
+# print test_grid
+#
+# test_grid.set_tile(0, 0, 1)
+# test_grid.set_tile(0, 1, 2)
+# test_grid.set_tile(0, 2, 3)
+# test_grid.set_tile(1, 0, 4)
+# test_grid.set_tile(1, 1, 5)
+# test_grid.set_tile(1, 2, 6)
+#
+# print test_grid
 
 
 # poc_2048_gui.run_gui(TwentyFortyEight(4, 4))

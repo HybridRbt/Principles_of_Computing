@@ -19,7 +19,7 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Principles_of_Computing$HW0.coverage" NAME="HW0 Coverage Results" MODIFIED="1402454590765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Principles_of_Computing$poc_2048.coverage" NAME="poc_2048 Coverage Results" MODIFIED="1402721871860" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Principles_of_Computing$poc_2048.coverage" NAME="poc_2048 Coverage Results" MODIFIED="1402725533459" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -46,9 +46,14 @@
       <file leaf-file-name="poc_2048.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/poc_2048.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="1.3026906" vertical-offset="1924" max-vertical-offset="2805">
-              <caret line="167" column="33" selection-start-line="167" selection-start-column="33" selection-end-line="167" selection-end-column="33" />
-              <folding />
+            <state vertical-scroll-proportion="0.6995516" vertical-offset="1098" max-vertical-offset="2985">
+              <caret line="141" column="0" selection-start-line="141" selection-start-column="2" selection-end-line="142" selection-end-column="15" />
+              <folding>
+                <element signature="e#77#104#0" expanded="true" />
+                <element signature="e#397#1495#0" expanded="false" />
+                <element signature="e#2535#2703#0" expanded="false" />
+                <element signature="e#2725#3019#0" expanded="false" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -133,6 +138,10 @@
     <property name="LayoutCode.rearrangeEntriesPython" value="false" />
     <property name="recentsLimit" value="5" />
     <property name="FullScreen" value="false" />
+    <property name="options.lastSelected" value="preferences.pluginManager" />
+    <property name="options.splitter.main.proportions" value="0.3" />
+    <property name="options.splitter.details.proportions" value="0.2" />
+    <property name="options.searchVisible" value="true" />
   </component>
   <component name="PyConsoleOptionsProvider">
     <option name="myPythonConsoleState">
@@ -395,19 +404,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/poc_2048.py</url>
-          <line>170</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="python-line">
-          <url>file://$PROJECT_DIR$/poc_2048.py</url>
-          <line>158</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-      <option name="time" value="4" />
+      <option name="time" value="5" />
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
@@ -445,9 +442,14 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/poc_2048.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="1.3026906" vertical-offset="1924" max-vertical-offset="2805">
-          <caret line="167" column="33" selection-start-line="167" selection-start-column="33" selection-end-line="167" selection-end-column="33" />
-          <folding />
+        <state vertical-scroll-proportion="0.6995516" vertical-offset="1098" max-vertical-offset="2985">
+          <caret line="141" column="0" selection-start-line="141" selection-start-column="2" selection-end-line="142" selection-end-column="15" />
+          <folding>
+            <element signature="e#77#104#0" expanded="true" />
+            <element signature="e#397#1495#0" expanded="false" />
+            <element signature="e#2535#2703#0" expanded="false" />
+            <element signature="e#2725#3019#0" expanded="false" />
+          </folding>
         </state>
       </provider>
     </entry>
