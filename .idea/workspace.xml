@@ -19,7 +19,7 @@
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/Principles_of_Computing$HW0.coverage" NAME="HW0 Coverage Results" MODIFIED="1402454590765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
-    <SUITE FILE_PATH="coverage/Principles_of_Computing$poc_2048.coverage" NAME="poc_2048 Coverage Results" MODIFIED="1402730454561" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Principles_of_Computing$poc_2048.coverage" NAME="poc_2048 Coverage Results" MODIFIED="1402730768450" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
@@ -46,8 +46,8 @@
       <file leaf-file-name="poc_2048.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/poc_2048.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.36098656" vertical-offset="2734" max-vertical-offset="3870">
-              <caret line="236" column="27" selection-start-line="236" selection-start-column="27" selection-end-line="236" selection-end-column="27" />
+            <state vertical-scroll-proportion="0.59641254" vertical-offset="3544" max-vertical-offset="3990">
+              <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="299" selection-end-column="15" />
               <folding>
                 <element signature="e#77#104#0" expanded="true" />
                 <element signature="e#2535#2703#0" expanded="false" />
@@ -449,8 +449,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/poc_2048.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.36098656" vertical-offset="2734" max-vertical-offset="3870">
-          <caret line="236" column="27" selection-start-line="236" selection-start-column="27" selection-end-line="236" selection-end-column="27" />
+        <state vertical-scroll-proportion="0.59641254" vertical-offset="3544" max-vertical-offset="3990">
+          <caret line="297" column="0" selection-start-line="297" selection-start-column="0" selection-end-line="299" selection-end-column="15" />
           <folding>
             <element signature="e#77#104#0" expanded="true" />
             <element signature="e#2535#2703#0" expanded="false" />
