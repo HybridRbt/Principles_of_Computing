@@ -89,7 +89,7 @@ class ClickerState:
         time_u = 0
         if self.current_cookies < cookies:
             # if time_u has value and it's a fractional number, ceil it
-            time_u = math.ceil((cookies - self.current_cookies) / self.current_cps)
+            time_u = float(math.ceil((cookies - self.current_cookies) / self.current_cps))
 
         return time_u
 
