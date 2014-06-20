@@ -14,8 +14,8 @@ Mini project for week 1
 import poc_clicker_provided as provided
 import math
 # Constants
-# SIM_TIME = 10000000000.0
-SIM_TIME = 100.0
+SIM_TIME = 10000000000.0
+#SIM_TIME = 100.0
 
 
 class ClickerState:
@@ -86,7 +86,7 @@ class ClickerState:
 
         Should return a float with no fractional part
         """
-        time_u = None
+        time_u = 0
         if self.current_cookies < cookies:
             # if time_u has value and it's a fractional number, ceil it
             time_u = math.ceil((cookies - self.current_cookies) / self.current_cps)
@@ -125,7 +125,7 @@ class ClickerState:
 
         """
         self.total_cookies += self.current_cps * time
-        self.current_cookies = self.current_cps * time
+        self.current_cookies += self.current_cps * time
         # for each_buy in self.game_history:
         #     # for each item bought before the current time, subtract the cost from total, to get current cookies
         #     self.current_cookies -= each_buy[2]
@@ -148,11 +148,19 @@ def simulate_clicker(build_info, duration, strategy):
         next_upgrade = strategy(my_state.get_cookies(), my_state.get_cps(), duration - my_state.get_time(),
                                 my_build_info)
         if next_upgrade is None:
+            #break
+            # instead of break out simulation now, stop it at the duration time
+            my_state.wait(duration - my_state.get_time())
             break
-        else:
-            time = my_state.time_until(my_build_info.get_cost(next_upgrade))
-            if time > duration - my_state.get_time():
-                break
+        # else:
+        #     time = my_state.time_until(my_build_info.get_cost(next_upgrade))
+        #     if time > duration - my_state.get_time():
+        #         # break
+        #         # instead of break out simulation now, stop it at the duration time
+        #         my_state.wait(duration - my_state.get_time())
+        #         break
+
+        time = my_state.time_until(my_build_info.get_cost(next_upgrade))
         my_state.wait(time)
         my_state.buy_item(next_upgrade, my_build_info.get_cost(next_upgrade), my_build_info.get_cps(next_upgrade))
         my_build_info.update_item(next_upgrade)
