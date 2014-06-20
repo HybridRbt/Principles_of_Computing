@@ -248,6 +248,31 @@ def strategy_expensive(cookies, cps, time_left, build_info):
 
 
 def strategy_best(cookies, cps, time_left, build_info):
+    """
+    The best strategy
+    """
+    # get available items from build_info
+    available_items = build_info.build_items()
+
+    # build a dictionary for the items and cost/cps
+    my_dictionary = {}
+    for each_item in available_items:
+        my_dictionary[each_item] = my_dictionary.get(each_item,
+                                                     build_info.get_cost(each_item) / build_info.get_cps(each_item))
+
+    # build a sorted list based on cost/cps
+    temp_list = sorted((value, key) for (key, value) in my_dictionary.items())
+
+    # for each item in the list, pick the one with lowest cost/cps, check if time left is enough to buy this next_item,
+    # if not, try next one, until found one and break
+    while temp_list:  # do it until no choice
+        next_item = temp_list[0][1]
+        if cps * time_left + cookies >= build_info.get_cost(next_item):
+            # time is enough, break
+            return next_item
+        # otherwise, move to the next
+        temp_list = temp_list[1:]
+
     return None
 
 
@@ -276,11 +301,11 @@ def run():
 
     # Add calls to run_strategy to run additional strategies
     run_strategy("Cheap", SIM_TIME, strategy_cheap)
-    # run_strategy("Expensive", SIM_TIME, strategy_expensive)
-    # run_strategy("Best", SIM_TIME, strategy_best)
+    run_strategy("Expensive", SIM_TIME, strategy_expensive)
+    run_strategy("Best", SIM_TIME, strategy_best)
 
 
-run()
+#run()
 
 # def test_state():
 #     my_state = ClickerState()  # initiate a state

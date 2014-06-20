@@ -18,7 +18,7 @@
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Principles_of_Computing$cookie_clicker.coverage" NAME="cookie_clicker Coverage Results" MODIFIED="1403305222181" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/Principles_of_Computing$cookie_clicker.coverage" NAME="cookie_clicker Coverage Results" MODIFIED="1403307639635" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Principles_of_Computing$HW0.coverage" NAME="HW0 Coverage Results" MODIFIED="1402454590765" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Principles_of_Computing$HW1.coverage" NAME="HW1 Coverage Results" MODIFIED="1403284719508" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
     <SUITE FILE_PATH="coverage/Principles_of_Computing$poc_2048.coverage" NAME="poc_2048 Coverage Results" MODIFIED="1402771380341" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
@@ -48,8 +48,8 @@
       <file leaf-file-name="cookie_clicker.py" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cookie_clicker.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.6659193" vertical-offset="3318" max-vertical-offset="4575">
-              <caret line="241" column="47" selection-start-line="241" selection-start-column="47" selection-end-line="241" selection-end-column="47" />
+            <state vertical-scroll-proportion="0.80717486" vertical-offset="4245" max-vertical-offset="4950">
+              <caret line="307" column="6" selection-start-line="307" selection-start-column="6" selection-end-line="307" selection-end-column="6" />
               <folding>
                 <element signature="e#178#217#0" expanded="true" />
               </folding>
@@ -555,8 +555,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cookie_clicker.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.6659193" vertical-offset="3318" max-vertical-offset="4575">
-          <caret line="241" column="47" selection-start-line="241" selection-start-column="47" selection-end-line="241" selection-end-column="47" />
+        <state vertical-scroll-proportion="0.80717486" vertical-offset="4245" max-vertical-offset="4950">
+          <caret line="307" column="6" selection-start-line="307" selection-start-column="6" selection-end-line="307" selection-end-column="6" />
           <folding>
             <element signature="e#178#217#0" expanded="true" />
           </folding>
