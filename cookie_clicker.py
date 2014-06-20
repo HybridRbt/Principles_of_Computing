@@ -28,12 +28,18 @@ class ClickerState:
         self.current_time = 0.0
         self.current_cps = 1.0
         self.game_history = [(0.0, None, 0.0, 0.0)]
+        self.current_state = ""
 
     def __str__(self):
         """
         Return human readable state
         """
-        return self.get_state(self.current_time)
+        self.current_state = "Current State:\n"
+        self.current_state += "Total cookies: " + str(self.total_cookies) + "\n"
+        self.current_state += "Current cookies: " + str(self.current_cookies) + "\n"
+        self.current_state += "Current time: " + str(self.current_time) + "\n"
+        self.current_state += "Current CPS: " + str(self.current_cps) + "\n"
+        return self.current_state
 
     def get_cookies(self):
         """
@@ -94,8 +100,8 @@ class ClickerState:
         """
         if time > 0:
             # only update when time > 0
-            desire_time = self.current_time + time
-            self.get_state(desire_time)
+            self.current_time += time
+            self.__str__()
 
     def buy_item(self, item_name, cost, additional_cps):
         """
@@ -105,10 +111,6 @@ class ClickerState:
         """
         pass
 
-    def get_state(self, time):
-        """
-        Get the state at the time designated by parameter time
-        """
 
 
 def simulate_clicker(build_info, duration, strategy):
