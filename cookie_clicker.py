@@ -4,7 +4,7 @@ Cookie Clicker Simulator
 Mini project for week 1
 """
 
-#import simpleplot
+# import simpleplot
 
 # Used to increase the timeout, if necessary
 #import codeskulptor
@@ -12,7 +12,7 @@ Mini project for week 1
 #codeskulptor.set_timeout(20)
 
 import poc_clicker_provided as provided
-
+import math
 # Constants
 # SIM_TIME = 10000000000.0
 SIM_TIME = 100.0
@@ -40,6 +40,7 @@ class ClickerState:
         self.current_state += "Current cookies: " + str(self.current_cookies) + "\n"
         self.current_state += "Current time: " + str(self.current_time) + "\n"
         self.current_state += "Current CPS: " + str(self.current_cps) + "\n"
+        self.current_state += "Purchase History: \n" + str(self.game_history)
         return self.current_state
 
     def get_cookies(self):
@@ -87,9 +88,8 @@ class ClickerState:
         """
         time_u = None
         if self.current_cookies < cookies:
-            while not time_u is None and time_u * 10 % 10 != 0:
-                # if time_u has value and it's a fractional number, re compute
-                time_u = (cookies - self.current_cookies) / self.current_cps
+            # if time_u has value and it's a fractional number, ceil it
+            time_u = math.ceil((cookies - self.current_cookies) / self.current_cps)
 
         return time_u
 
@@ -113,7 +113,7 @@ class ClickerState:
         """
         my_cost = float(cost)
         my_add_cps = float(additional_cps)
-        if my_cost < self.current_cookies:
+        if my_cost <= self.current_cookies:
             # can buy items only when cookies are enough
             self.current_cookies -= my_cost  # subtract cost first
             self.current_cps += my_add_cps  # increase cps
@@ -146,7 +146,7 @@ def simulate_clicker(build_info, duration, strategy):
     #  loop until the time in the ClickerState object reaches the duration of the simulation
     while my_state.get_time() <= duration:
         next_upgrade = strategy(my_state.get_cookies(), my_state.get_cps(), duration - my_state.get_time(),
-                               my_build_info)
+                                my_build_info)
         if next_upgrade is None:
             break
         else:
@@ -154,9 +154,10 @@ def simulate_clicker(build_info, duration, strategy):
             if time > duration - my_state.get_time():
                 break
         my_state.wait(time)
-        my_state.buy_item(my_build_info, my_build_info.get_cost, my_build_info.get_cps())
-        my_build_info.update_item()
-    return ClickerState()
+        my_state.buy_item(next_upgrade, my_build_info.get_cost(next_upgrade), my_build_info.get_cps(next_upgrade))
+        my_build_info.update_item(next_upgrade)
+
+    return str(my_state)
 
 
 def strategy_cursor(cookies, cps, time_left, build_info):
@@ -168,6 +169,10 @@ def strategy_cursor(cookies, cps, time_left, build_info):
     functions must do this and return None rather than an item you
     can't buy in the time left.
     """
+    # check if time left is enough to buy a cursor
+    if cps * time_left + cookies < build_info.get_cost("Cursor"):
+        return None
+
     return "Cursor"
 
 
@@ -182,7 +187,6 @@ def strategy_none(cookies, cps, time_left, build_info):
 
 
 def strategy_cheap(cookies, cps, time_left, build_info):
-
     return None
 
 
@@ -223,7 +227,7 @@ def run():
     # run_strategy("Best", SIM_TIME, strategy_best)
 
 
-#run()
+run()
 
 # def test_state():
 #     my_state = ClickerState()  # initiate a state
