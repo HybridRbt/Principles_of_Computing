@@ -101,7 +101,7 @@ class ClickerState:
         if time > 0:
             # only update when time > 0
             self.current_time += time
-            self.update_total_cookies()
+            self.update_cookies(time)
             self.__str__()
 
     def buy_item(self, item_name, cost, additional_cps):
@@ -110,14 +110,24 @@ class ClickerState:
 
         Should do nothing if you cannot afford the item
         """
-        if cost < self.current_cookies:
+        my_cost = float(cost)
+        my_add_cps = float(additional_cps)
+        if my_cost < self.current_cookies:
             # can buy items only when cookies are enough
-            self.current_cookies -= cost  # subtract cost first
-            self.current_cps += additional_cps  # increase cps
-            self.game_history.append((self.current_time, item_name, cost, self.total_cookies))  # update history
+            self.current_cookies -= my_cost  # subtract cost first
+            self.current_cps += my_add_cps  # increase cps
+            self.game_history.append((self.current_time, item_name, my_cost, self.total_cookies))  # update history
 
-    def update_total_cookies(self):
-        self.total_cookies += self.current_cps * self.current_time
+    def update_cookies(self, time):
+        """
+        Update the total cookies and current cookies based on elapsed time
+
+        """
+        self.total_cookies += self.current_cps * time
+        self.current_cookies = self.total_cookies
+        for each_buy in self.game_history:
+            # for each item bought before the current time, subtract the cost from total, to get current cookies
+            self.current_cookies -= each_buy[2]
 
 
 def simulate_clicker(build_info, duration, strategy):
@@ -202,6 +212,10 @@ def test_state():
 
     my_state.wait(30)
     print "After 30 second: \n" + str(my_state)
+
+    my_state.buy_item("test", "1", "0.5")
+    my_state.wait(30)
+    print "Buy a test item and after another 30 seconds: \n" + str(my_state)
 
 test_state()
 
