@@ -227,24 +227,26 @@ def strategy_expensive(cookies, cps, time_left, build_info):
     # get available items from build_info
     available_items = build_info.build_items()
 
-    # get the current most expensive item
-    current_exp = None
-    next_item = ""
+    # build a dictionary for the items and costs
+    my_dictionary = {}
     for each_item in available_items:
-        if current_exp is None:
-            current_exp = build_info.get_cost(each_item)
-            next_item = each_item
-        else:
-            if current_exp < build_info.get_cost(each_item):
-                current_exp = build_info.get_cost(each_item)
-                next_item = each_item
+        my_dictionary[each_item] = my_dictionary.get(each_item, build_info.get_cost(each_item))
 
-    # check if time left is enough to buy this next_item, if not, return None
-    if cps * time_left + cookies < build_info.get_cost(next_item):
-        return None
+    # build a sorted list based on the cost
+    temp_list = sorted(((value, key) for (key, value) in my_dictionary.items()), reverse=True)
 
-    # otherwise, return this item
-    return next_item
+    # for each item in the list, pick the one with highest cost, check if time left is enough to buy this next_item,
+    # if not, try next one, until found one and break
+    while temp_list:  # do it until no choice
+        next_item = temp_list[0][1]
+        if cps * time_left + cookies >= build_info.get_cost(next_item):
+            # time is enough, break
+            return next_item
+        # otherwise, move to the next
+        temp_list = temp_list[1:]
+
+    # otherwise, return None
+    return None
 
 
 def strategy_best(cookies, cps, time_left, build_info):
