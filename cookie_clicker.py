@@ -7,9 +7,9 @@ Mini project for week 1
 # import simpleplot
 
 # Used to increase the timeout, if necessary
-#import codeskulptor
+import codeskulptor
 
-#codeskulptor.set_timeout(20)
+codeskulptor.set_timeout(200)
 
 import poc_clicker_provided as provided
 import math
