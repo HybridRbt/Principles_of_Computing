@@ -195,11 +195,56 @@ def strategy_none(cookies, cps, time_left, build_info):
 
 
 def strategy_cheap(cookies, cps, time_left, build_info):
-    return None
+    """
+    Always choose the cheapest item
+    """
+    # get available items from build_info
+    available_items = build_info.build_items()
+
+    # build a dictionary for the items and costs
+    my_dictionary = {}
+    for each_item in available_items:
+        my_dictionary[each_item] = my_dictionary.get(each_item, build_info.get_cost(each_item))
+
+    # build a sorted list based on the cost
+    temp_list = sorted((value, key) for (key, value) in my_dictionary.items())
+
+    # get the current cheapest item
+    next_item = temp_list[0][1]
+
+    # check if time left is enough to buy this next_item, if not, return None
+    if cps * time_left + cookies < build_info.get_cost(next_item):
+        return None
+
+    # otherwise, return this item
+    return next_item
 
 
 def strategy_expensive(cookies, cps, time_left, build_info):
-    return None
+    """
+    Always choose the most expensive item
+    """
+    # get available items from build_info
+    available_items = build_info.build_items()
+
+    # get the current cheapest item
+    current_cheapest = None
+    current_item = ""
+    for each_item in available_items:
+        if current_cheapest is None:
+            current_cheapest = build_info.get_cost(each_item)
+            current_item = each_item
+        else:
+            if current_cheapest > build_info.get_cost(each_item):
+                current_cheapest = build_info.get_cost(each_item)
+                current_item = each_item
+
+    # check if time left is enough to buy this current_item, if not, return None
+    if cps * time_left + cookies < build_info.get_cost(current_item):
+        return None
+
+    # otherwise, return this item
+    return current_item
 
 
 def strategy_best(cookies, cps, time_left, build_info):
@@ -230,7 +275,7 @@ def run():
     run_strategy("Cursor", SIM_TIME, strategy_cursor)
 
     # Add calls to run_strategy to run additional strategies
-    # run_strategy("Cheap", SIM_TIME, strategy_cheap)
+    run_strategy("Cheap", SIM_TIME, strategy_cheap)
     # run_strategy("Expensive", SIM_TIME, strategy_expensive)
     # run_strategy("Best", SIM_TIME, strategy_best)
 
