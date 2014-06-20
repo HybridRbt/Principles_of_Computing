@@ -125,10 +125,10 @@ class ClickerState:
 
         """
         self.total_cookies += self.current_cps * time
-        self.current_cookies = self.total_cookies
-        for each_buy in self.game_history:
-            # for each item bought before the current time, subtract the cost from total, to get current cookies
-            self.current_cookies -= each_buy[2]
+        self.current_cookies = self.current_cps * time
+        # for each_buy in self.game_history:
+        #     # for each item bought before the current time, subtract the cost from total, to get current cookies
+        #     self.current_cookies -= each_buy[2]
 
 
 def simulate_clicker(build_info, duration, strategy):
