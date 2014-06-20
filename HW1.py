@@ -20,35 +20,26 @@ def resources_vs_time(upgrade_cost_increment, num_upgrades):
             current_time = the time at which an upgrade occurs
             total_resources_generated = total amount of resources generated during the simulation
     """
-    total_resources_initial = 1
-    current_time = 1.0
-
-    total_resources_generated = 1
+    total_resources_generated = 0
+    current_time = 0.0
 
     current_resources_generate_rate = 1
-    resources_available = total_resources_generated
 
     current_upgrade_cost = 1
 
     rate_add_per_upgrade = 1
 
-    re_vs_t = [[current_time, total_resources_initial]]  # a list of lists record the resources
+    re_vs_t = []  # a list of lists record the resources
 
     while num_upgrades > 0:
         # resources_available = 0  # no available resources at the beginning of each iteration
-        if resources_available >= current_upgrade_cost:
-            resources_available -= current_upgrade_cost
-            current_resources_generate_rate += rate_add_per_upgrade
-            current_upgrade_cost += upgrade_cost_increment
-        else:
-            time_till_next_upgrade = (current_upgrade_cost - resources_available) / current_resources_generate_rate
-            current_time += time_till_next_upgrade
-            total_resources_generated += time_till_next_upgrade * current_resources_generate_rate
-            current_resources_generate_rate += rate_add_per_upgrade
-            current_upgrade_cost += upgrade_cost_increment
-            resources_available -= current_upgrade_cost
-        num_upgrades -= 1
+        time_till_next_upgrade = current_upgrade_cost / current_resources_generate_rate
+        current_time += time_till_next_upgrade
+        total_resources_generated += current_upgrade_cost
+        current_resources_generate_rate += rate_add_per_upgrade
+        current_upgrade_cost += upgrade_cost_increment
         re_vs_t.append([current_time, total_resources_generated])
+        num_upgrades -= 1
 
     return re_vs_t
 
