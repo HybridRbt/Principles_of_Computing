@@ -165,7 +165,7 @@ def simulate_clicker(build_info, duration, strategy):
         my_state.buy_item(next_upgrade, my_build_info.get_cost(next_upgrade), my_build_info.get_cps(next_upgrade))
         my_build_info.update_item(next_upgrade)
 
-    return str(my_state)
+    return my_state
 
 
 def strategy_cursor(cookies, cps, time_left, build_info):
