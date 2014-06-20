@@ -227,24 +227,24 @@ def strategy_expensive(cookies, cps, time_left, build_info):
     # get available items from build_info
     available_items = build_info.build_items()
 
-    # get the current cheapest item
-    current_cheapest = None
-    current_item = ""
+    # get the current most expensive item
+    current_exp = None
+    next_item = ""
     for each_item in available_items:
-        if current_cheapest is None:
-            current_cheapest = build_info.get_cost(each_item)
-            current_item = each_item
+        if current_exp is None:
+            current_exp = build_info.get_cost(each_item)
+            next_item = each_item
         else:
-            if current_cheapest > build_info.get_cost(each_item):
-                current_cheapest = build_info.get_cost(each_item)
-                current_item = each_item
+            if current_exp < build_info.get_cost(each_item):
+                current_exp = build_info.get_cost(each_item)
+                next_item = each_item
 
-    # check if time left is enough to buy this current_item, if not, return None
-    if cps * time_left + cookies < build_info.get_cost(current_item):
+    # check if time left is enough to buy this next_item, if not, return None
+    if cps * time_left + cookies < build_info.get_cost(next_item):
         return None
 
     # otherwise, return this item
-    return current_item
+    return next_item
 
 
 def strategy_best(cookies, cps, time_left, build_info):
