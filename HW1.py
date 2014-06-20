@@ -44,10 +44,9 @@ def resources_vs_time(upgrade_cost_increment, num_upgrades):
     return re_vs_t
 
 
-def resources_vs_time_15(upgrade_cost_increment, num_upgrades):
+def resources_vs_time_15(num_upgrades):
     """
     Build function that performs unit upgrades with specified cost increments
-    :param upgrade_cost_increment:
     :param num_upgrades:
     :return: a list, length = num_upgrades, entries = [current_time, total_resources_generated].
             current_time = the time at which an upgrade occurs
@@ -70,7 +69,7 @@ def resources_vs_time_15(upgrade_cost_increment, num_upgrades):
         current_time += time_till_next_upgrade
         total_resources_generated += current_upgrade_cost
         current_resources_generate_rate += rate_add_per_upgrade
-        current_upgrade_cost += upgrade_cost_increment
+        current_upgrade_cost *= 1.5
         re_vs_t.append([math.log(current_time), math.log(total_resources_generated)])
         num_upgrades -= 1
 
