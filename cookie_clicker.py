@@ -23,13 +23,17 @@ class ClickerState:
     """
 
     def __init__(self):
-        pass
+        self.total_cookies = 0.0
+        self.current_cookies = 0.0
+        self.current_time = 0.0
+        self.current_cps = 1.0
+        self.game_history = [(0.0, None, 0.0, 0.0)]
 
     def __str__(self):
         """
         Return human readable state
         """
-        return ""
+        return self.get_state(self.current_time)
 
     def get_cookies(self):
         """
@@ -38,7 +42,7 @@ class ClickerState:
 
         Should return a float
         """
-        return 0.0
+        return self.current_cookies
 
     def get_cps(self):
         """
@@ -46,7 +50,7 @@ class ClickerState:
 
         Should return a float
         """
-        return 0.0
+        return self.current_cps
 
     def get_time(self):
         """
@@ -54,7 +58,7 @@ class ClickerState:
 
         Should return a float
         """
-        return 0.0
+        return self.current_time
 
     def get_history(self):
         """
@@ -65,7 +69,7 @@ class ClickerState:
 
         For example: (0.0, None, 0.0, 0.0)
         """
-        return []
+        return self.game_history
 
     def time_until(self, cookies):
         """
@@ -74,7 +78,13 @@ class ClickerState:
 
         Should return a float with no fractional part
         """
-        return 0.0
+        time_u = None
+        if self.current_cookies < cookies:
+            while not time_u is None and time_u * 10 % 10 != 0:
+                # if time_u has value and it's a fractional number, re compute
+                time_u = (cookies - self.current_cookies) / self.current_cps
+
+        return time_u
 
     def wait(self, time):
         """
@@ -82,7 +92,10 @@ class ClickerState:
 
         Should do nothing if time <= 0
         """
-        pass
+        if time > 0:
+            # only update when time > 0
+            desire_time = self.current_time + time
+            self.get_state(desire_time)
 
     def buy_item(self, item_name, cost, additional_cps):
         """
@@ -91,6 +104,11 @@ class ClickerState:
         Should do nothing if you cannot afford the item
         """
         pass
+
+    def get_state(self, time):
+        """
+        Get the state at the time designated by parameter time
+        """
 
 
 def simulate_clicker(build_info, duration, strategy):
