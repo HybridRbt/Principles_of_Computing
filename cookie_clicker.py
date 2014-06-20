@@ -11,10 +11,11 @@ Mini project for week 1
 
 #codeskulptor.set_timeout(20)
 
-#import poc_clicker_provided as provided
+import poc_clicker_provided as provided
 
 # Constants
-SIM_TIME = 10000000000.0
+# SIM_TIME = 10000000000.0
+SIM_TIME = 100.0
 
 
 class ClickerState:
@@ -136,8 +137,25 @@ def simulate_clicker(build_info, duration, strategy):
     duration with the given strategy.  Returns a ClickerState
     object corresponding to game.
     """
+    # make a clone of the build_info object
+    my_build_info = build_info.clone()
 
-    # Replace with your code
+    # create a new ClickerState object
+    my_state = ClickerState()
+
+    #  loop until the time in the ClickerState object reaches the duration of the simulation
+    while my_state.get_time() <= duration:
+        next_upgrade = strategy(my_state.get_cookies(), my_state.get_cps(), duration - my_state.get_time(),
+                               my_build_info)
+        if next_upgrade is None:
+            break
+        else:
+            time = my_state.time_until(my_build_info.get_cost(next_upgrade))
+            if time > duration - my_state.get_time():
+                break
+        my_state.wait(time)
+        my_state.buy_item(my_build_info, my_build_info.get_cost, my_build_info.get_cps())
+        my_build_info.update_item()
     return ClickerState()
 
 
@@ -164,6 +182,7 @@ def strategy_none(cookies, cps, time_left, build_info):
 
 
 def strategy_cheap(cookies, cps, time_left, build_info):
+
     return None
 
 
@@ -206,18 +225,18 @@ def run():
 
 #run()
 
-def test_state():
-    my_state = ClickerState()  # initiate a state
-    print str(my_state)  # print initial state
-
-    my_state.wait(30)
-    print "After 30 second: \n" + str(my_state)
-
-    my_state.buy_item("test", "1", "0.5")
-    my_state.wait(30)
-    print "Buy a test item and after another 30 seconds: \n" + str(my_state)
-
-test_state()
+# def test_state():
+#     my_state = ClickerState()  # initiate a state
+#     print str(my_state)  # print initial state
+#
+#     my_state.wait(30)
+#     print "After 30 second: \n" + str(my_state)
+#
+#     my_state.buy_item("test", "1", "0.5")
+#     my_state.wait(30)
+#     print "Buy a test item and after another 30 seconds: \n" + str(my_state)
+#
+# test_state()
 
 
 
