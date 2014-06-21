@@ -35,12 +35,11 @@ class ClickerState:
         """
         Return human readable state
         """
-        self.current_state = "Current State:\n"
-        self.current_state += "Total cookies: " + str(self.total_cookies) + "\n"
-        self.current_state += "Current cookies: " + str(self.current_cookies) + "\n"
-        self.current_state += "Current time: " + str(self.current_time) + "\n"
-        self.current_state += "Current CPS: " + str(self.current_cps) + "\n"
-        self.current_state += "Purchase History: \n" + str(self.game_history)
+        self.current_state += "Time: " + str(self.current_time) + " "
+        self.current_state += "Current Cookies: " + str(self.current_cookies) + " "
+        self.current_state += "CPS: " + str(self.current_cps) + " "
+        self.current_state += "Total Cookies: " + str(self.total_cookies) + " "
+        self.current_state += "History: (length: " + str(len(self.game_history)) + "): " + str(self.game_history)
         return self.current_state
 
     def get_cookies(self):
