@@ -7,15 +7,15 @@ Mini project for week 1
 # import simpleplot
 
 # Used to increase the timeout, if necessary
-#import codeskulptor
+import codeskulptor
 
-#codeskulptor.set_timeout(200)
+codeskulptor.set_timeout(200)
 
 import poc_clicker_provided as provided
 import math
 # Constants
 SIM_TIME = 10000000000.0
-#SIM_TIME = 100.0
+# SIM_TIME = 100.0
 
 
 class ClickerState:
@@ -124,10 +124,7 @@ class ClickerState:
         """
         self.total_cookies += self.current_cps * time
         self.current_cookies += self.current_cps * time
-        # for each_buy in self.game_history:
-        #     # for each item bought before the current time, subtract the cost from total, to get current cookies
-        #     self.current_cookies -= each_buy[2]
-
+        
 
 def simulate_clicker(build_info, duration, strategy):
     """
@@ -150,13 +147,6 @@ def simulate_clicker(build_info, duration, strategy):
             # instead of break out simulation now, stop it at the duration time
             my_state.wait(duration - my_state.get_time())
             break
-        # else:
-        #     time = my_state.time_until(my_build_info.get_cost(next_upgrade))
-        #     if time > duration - my_state.get_time():
-        #         # break
-        #         # instead of break out simulation now, stop it at the duration time
-        #         my_state.wait(duration - my_state.get_time())
-        #         break
 
         time = my_state.time_until(my_build_info.get_cost(next_upgrade))
         my_state.wait(time)
@@ -231,7 +221,7 @@ def strategy_expensive(cookies, cps, time_left, build_info):
         my_dictionary[each_item] = my_dictionary.get(each_item, build_info.get_cost(each_item))
 
     # build a sorted list based on the cost
-    temp_list = sorted(((value, key) for (key, value) in my_dictionary.items()), reverse=True)
+    temp_list = sorted(((value, key) for (key, value) in my_dictionary.items()), reverse = True)
 
     # for each item in the list, pick the one with highest cost, check if time left is enough to buy this next_item,
     # if not, try next one, until found one and break
@@ -306,7 +296,7 @@ def run():
 
 
 #run()
-print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 10, strategy_cursor)
+#print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 10, strategy_cursor)
 
 # def test_state():
 #     my_state = ClickerState()  # initiate a state
