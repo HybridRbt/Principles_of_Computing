@@ -24,8 +24,8 @@ class ClickerState:
     """
 
     def __init__(self):
-        self.total_cookies = 0.0
-        self.current_cookies = 0.0
+        self._total_cookies = 0.0
+        self._current_cookies = 0.0
         self.current_time = 0.0
         self.current_cps = 1.0
         self.game_history = [(0.0, None, 0.0, 0.0)]
@@ -36,9 +36,9 @@ class ClickerState:
         Return human readable state
         """
         self.current_state += "Time: " + str(self.current_time) + " "
-        self.current_state += "Current Cookies: " + str(self.current_cookies) + " "
+        self.current_state += "Current Cookies: " + str(self._current_cookies) + " "
         self.current_state += "CPS: " + str(self.current_cps) + " "
-        self.current_state += "Total Cookies: " + str(self.total_cookies) + " "
+        self.current_state += "Total Cookies: " + str(self._total_cookies) + " "
         self.current_state += "History: (length: " + str(len(self.game_history)) + "): " + str(self.game_history)
         return self.current_state
 
@@ -49,7 +49,7 @@ class ClickerState:
 
         Should return a float
         """
-        return self.current_cookies
+        return self._current_cookies
 
     def get_cps(self):
         """
@@ -86,9 +86,9 @@ class ClickerState:
         Should return a float with no fractional part
         """
         time_u = 0
-        if self.current_cookies < cookies:
+        if self._current_cookies < cookies:
             # if time_u has value and it's a fractional number, ceil it
-            time_u = math.ceil((cookies - self.current_cookies) / self.current_cps)
+            time_u = math.ceil((cookies - self._current_cookies) / self.current_cps)
 
         return float(time_u)
 
@@ -111,20 +111,20 @@ class ClickerState:
         """
         my_cost = float(cost)
         my_add_cps = float(additional_cps)
-        if my_cost <= self.current_cookies:
+        if my_cost <= self._current_cookies:
             # can buy items only when cookies are enough
-            self.current_cookies -= my_cost  # subtract cost first
+            self._current_cookies -= my_cost  # subtract cost first
             self.current_cps += my_add_cps  # increase cps
-            self.game_history.append((self.current_time, item_name, my_cost, self.total_cookies))  # update history
+            self.game_history.append((self.current_time, item_name, my_cost, self._total_cookies))  # update history
 
     def update_cookies(self, time):
         """
         Update the total cookies and current cookies based on elapsed time
 
         """
-        self.total_cookies += self.current_cps * time
-        self.current_cookies += self.current_cps * time
-        
+        self._total_cookies += self.current_cps * time
+        self._current_cookies += self.current_cps * time
+
 
 def simulate_clicker(build_info, duration, strategy):
     """
