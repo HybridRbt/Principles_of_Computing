@@ -151,7 +151,7 @@ def simulate_clicker(build_info, duration, strategy):
             if my_state.get_cps() * (duration - my_state.get_time()) + my_state.get_cookies() < build_info.get_cost(
                     next_upgrade):
                 my_state.wait(duration - my_state.get_time())
-            break
+                break
 
         time = my_state.time_until(my_build_info.get_cost(next_upgrade))
         my_state.wait(time)
@@ -301,7 +301,7 @@ def run():
 
 
 #run()
-#print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 10, strategy_cursor)
+#print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 15, strategy_cursor)
 
 # def test_state():
 #     my_state = ClickerState()  # initiate a state
