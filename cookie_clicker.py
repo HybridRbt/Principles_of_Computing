@@ -9,7 +9,7 @@ Mini project for week 1
 # Used to increase the timeout, if necessary
 import codeskulptor
 
-codeskulptor.set_timeout(200)
+codeskulptor.set_timeout(2000)
 
 import poc_clicker_provided as provided
 import math
@@ -146,12 +146,12 @@ def simulate_clicker(build_info, duration, strategy):
             #break
             # instead of break out simulation now, stop it at the duration time
             my_state.wait(duration - my_state.get_time())
-            break
+            return my_state
         elif next_upgrade == "Cursor":
             if my_state.get_cps() * (duration - my_state.get_time()) + my_state.get_cookies() < build_info.get_cost(
                     next_upgrade):
                 my_state.wait(duration - my_state.get_time())
-                break
+                return my_state
 
         time = my_state.time_until(my_build_info.get_cost(next_upgrade))
         my_state.wait(time)
@@ -301,7 +301,7 @@ def run():
 
 
 #run()
-#print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 15, strategy_cursor)
+#print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 500, strategy_cursor)
 
 # def test_state():
 #     my_state = ClickerState()  # initiate a state
