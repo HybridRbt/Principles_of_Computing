@@ -7,9 +7,9 @@ Mini project for week 1
 # import simpleplot
 
 # Used to increase the timeout, if necessary
-import codeskulptor
+#import codeskulptor
 
-codeskulptor.set_timeout(200)
+#codeskulptor.set_timeout(200)
 
 import poc_clicker_provided as provided
 import math
@@ -102,7 +102,6 @@ class ClickerState:
             # only update when time > 0
             self.current_time += time
             self.update_cookies(time)
-            self.__str__()
 
     def buy_item(self, item_name, cost, additional_cps):
         """
@@ -307,6 +306,7 @@ def run():
 
 
 #run()
+print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 10, strategy_cursor)
 
 # def test_state():
 #     my_state = ClickerState()  # initiate a state
