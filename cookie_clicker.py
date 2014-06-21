@@ -147,6 +147,11 @@ def simulate_clicker(build_info, duration, strategy):
             # instead of break out simulation now, stop it at the duration time
             my_state.wait(duration - my_state.get_time())
             break
+        elif next_upgrade == "Cursor":
+            if my_state.get_cps() * (duration - my_state.get_time()) + my_state.get_cookies() < build_info.get_cost(
+                    next_upgrade):
+                my_state.wait(duration - my_state.get_time())
+            break
 
         time = my_state.time_until(my_build_info.get_cost(next_upgrade))
         my_state.wait(time)
