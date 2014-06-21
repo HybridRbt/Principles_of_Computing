@@ -7,9 +7,9 @@ Mini project for week 1
 # import simpleplot
 
 # Used to increase the timeout, if necessary
-#import codeskulptor
+import codeskulptor
 
-#codeskulptor.set_timeout(2000)
+codeskulptor.set_timeout(2000)
 
 import poc_clicker_provided as provided
 import math
@@ -301,7 +301,7 @@ def run():
 
 
 #run()
-print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 500, strategy_cursor)
+#print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 500, strategy_cursor)
 
 # def test_state():
 #     my_state = ClickerState()  # initiate a state
