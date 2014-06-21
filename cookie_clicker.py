@@ -7,9 +7,9 @@ Mini project for week 1
 # import simpleplot
 
 # Used to increase the timeout, if necessary
-import codeskulptor
+#import codeskulptor
 
-codeskulptor.set_timeout(2000)
+#codeskulptor.set_timeout(2000)
 
 import poc_clicker_provided as provided
 import math
@@ -148,7 +148,7 @@ def simulate_clicker(build_info, duration, strategy):
             my_state.wait(duration - my_state.get_time())
             return my_state
         elif next_upgrade == "Cursor":
-            if my_state.get_cps() * (duration - my_state.get_time()) + my_state.get_cookies() < build_info.get_cost(
+            if my_state.get_cps() * (duration - my_state.get_time()) + my_state.get_cookies() < my_build_info.get_cost(
                     next_upgrade):
                 my_state.wait(duration - my_state.get_time())
                 return my_state
@@ -171,8 +171,8 @@ def strategy_cursor(cookies, cps, time_left, build_info):
     can't buy in the time left.
     """
     # check if time left is enough to buy a cursor
-    if cps * time_left + cookies < build_info.get_cost("Cursor"):
-        return None
+    # if cps * time_left + cookies < build_info.get_cost("Cursor"):
+    #     return None
 
     return "Cursor"
 
@@ -301,7 +301,7 @@ def run():
 
 
 #run()
-#print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 500, strategy_cursor)
+print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 500, strategy_cursor)
 
 # def test_state():
 #     my_state = ClickerState()  # initiate a state
