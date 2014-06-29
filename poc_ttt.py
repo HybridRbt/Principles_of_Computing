@@ -8,7 +8,7 @@ import poc_ttt_provided as provided
 
 # Constants for Monte Carlo simulator
 # Change as desired
-NTRIALS = 1000  # Number of trials to run
+NTRIALS = 100  # Number of trials to run
 MCMATCH = 1.0  # Score for squares played by the machine player
 MCOTHER = 1.0  # Score for squares played by the other player
 
@@ -69,7 +69,7 @@ def update_scores_lose(board, scores, player):
     """
     for row_index in range(board.get_dim()):
         for col_index in range(board.get_dim()):
-            if board.square(row_index, col_index) == player:  # this square gets MCMATCH
+            if board.square(row_index, col_index) == player:  # this square gets -MCMATCH
                 scores[row_index][col_index] -= MCMATCH
             elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
                 scores[row_index][col_index] += 0
@@ -131,12 +131,13 @@ def mc_move(board, player, trials):
     column) tuple. Be sure to use the other functions you have written!
     """
     number_of_trials = trials
-    scores = [[0] * board.get_dim()] * board.get_dim()
+    temp_list = [0] * board.get_dim()
+    scores = [temp_list] * board.get_dim()
 
     # this gets complained by OwlTest
     # initialize scores dictionary
     # for row_index in range(board.get_dim()):
-    #     temp_list = []
+    #     temp_list = []d
     #     for col_index in range(board.get_dim()):
     #         temp_list.append(0)
     #     scores.append(temp_list)
@@ -200,3 +201,8 @@ def pick_next_move_random(board):
 # print sc
 # expected [[1.0, 1.0, -1.0], [-1.0, 1.0, 0], [0, 1.0, -1.0]] but
 # received [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+
+print mc_move(provided.TTTBoard(3, False, [[provided.PLAYERX, provided.EMPTY, provided.EMPTY],
+                                           [provided.PLAYERO, provided.PLAYERO, provided.EMPTY],
+                                           [provided.EMPTY, provided.PLAYERX, provided.EMPTY]]),
+              provided.PLAYERX, NTRIALS)
