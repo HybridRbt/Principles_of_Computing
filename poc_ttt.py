@@ -131,14 +131,14 @@ def mc_move(board, player, trials):
     column) tuple. Be sure to use the other functions you have written!
     """
     number_of_trials = trials
-    scores = []
+    scores = [[0] * board.get_dim()] * board.get_dim()
 
     # initialize scores dictionary
-    for row_index in range(board.get_dim()):
-        temp_list = []
-        for col_index in range(board.get_dim()):
-            temp_list.append(0)
-        scores.append(temp_list)
+    # for row_index in range(board.get_dim()):
+    #     temp_list = []
+    #     for col_index in range(board.get_dim()):
+    #         temp_list.append(0)
+    #     scores.append(temp_list)
 
     while number_of_trials > 0:
         temp_board = board.clone()
