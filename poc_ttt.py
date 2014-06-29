@@ -51,7 +51,6 @@ def mc_update_scores(scores, board, player):
     :param: player: current player
     """
     result = board.check_win()
-    scores = list_to_dict(scores)
     # machine player is "player"
     if result is None:  # still in progress, do nothing
         return
@@ -63,35 +62,21 @@ def mc_update_scores(scores, board, player):
         for row_index in range(board.get_dim()):
             for col_index in range(board.get_dim()):
                 if board.square(row_index, col_index) == player:  # this square gets MCMATCH
-                    scores[(row_index, col_index)] += MCMATCH
+                    scores[row_index][col_index] += MCMATCH
                 elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
-                    scores[(row_index, col_index)] += 0
+                    scores[row_index][col_index] += 0
                 else:
-                    scores[(row_index, col_index)] -= MCOTHER
+                    scores[row_index][col_index] -= MCOTHER
     else:  # machine player loses
         # update scores
         for row_index in range(board.get_dim()):
             for col_index in range(board.get_dim()):
                 if board.square(row_index, col_index) == player:  # this square gets MCMATCH
-                    scores[(row_index, col_index)] -= MCMATCH
+                    scores[row_index][col_index] -= MCMATCH
                 elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
-                    scores[(row_index, col_index)] += 0
+                    scores[row_index][col_index] += 0
                 else:
-                    scores[(row_index, col_index)] += MCOTHER
-
-
-def list_to_dict(scores):
-    """
-    convert input score list to score dictionary
-    :param scores: a list
-    :return: a score dictionary
-    """
-    score_dict = {}
-    for row_index in range(len(scores)):  # first level
-        for col_index in range(len(scores[row_index])):  # second level
-            score_dict[(row_index, col_index)] = score_dict.get((row_index, col_index), scores[row_index][col_index])
-
-    return score_dict
+                    scores[row_index][col_index] += MCOTHER
 
 
 def get_best_move(board, scores):
@@ -103,7 +88,6 @@ def get_best_move(board, scores):
     :param: board: a board instance
     :param: scores: a list
     """
-    scores = list_to_dict(scores)
     available_moves = board.get_empty_squares()
     if len(available_moves) == 0:  # no available moves
         return
@@ -111,7 +95,7 @@ def get_best_move(board, scores):
     temp_dict = {}
     for each_move in available_moves:
         # form a temp dictionary of available squares
-        temp_dict[each_move] = temp_dict.get(each_move, scores[each_move])
+        temp_dict[each_move] = temp_dict.get(each_move, scores[each_move[0]][each_move[1]])
 
     best_move = get_max_value(temp_dict)[1]
 
@@ -125,12 +109,14 @@ def mc_move(board, player, trials):
     column) tuple. Be sure to use the other functions you have written!
     """
     number_of_trials = trials
-    scores = {}
+    scores = []
 
     # initialize scores dictionary
     for row_index in range(board.get_dim()):
+        temp_list = []
         for col_index in range(board.get_dim()):
-            scores[(row_index, col_index)] = scores.get((row_index, col_index), 0)
+            temp_list.append(0)
+        scores.append(temp_list)
 
     while number_of_trials > 0:
         temp_board = board.clone()
@@ -165,5 +151,29 @@ def pick_next_move_random(board):
 # poc_ttt_gui.run_gui(3, provided.PLAYERX, mc_move, NTRIALS, False)
 
 # print get_best_move(provided.TTTBoard(2, False, [[provided.EMPTY, provided.EMPTY], [provided.EMPTY, provided.EMPTY]]),
-#               [[0, 0], [3, 0]])
+# [[0, 0], [3, 0]])
 # expected one tuple from [(1, 0)]
+
+# print mc_move(provided.TTTBoard(3, False, [[provided.PLAYERX, provided.PLAYERX, provided.PLAYERO],
+# [provided.PLAYERO, provided.PLAYERX, provided.PLAYERX],
+# [provided.PLAYERO, provided.EMPTY, provided.PLAYERO]]),
+# provided.PLAYERX, NTRIALS)
+#
+# print mc_move(provided.TTTBoard(3, False, [[provided.PLAYERX, provided.PLAYERX, provided.PLAYERO],
+#                                            [provided.EMPTY, provided.PLAYERX, provided.PLAYERX],
+#                                            [provided.PLAYERO, provided.EMPTY, provided.PLAYERO]]),
+#               provided.PLAYERO, NTRIALS)
+#
+# sc = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+# mc_update_scores(sc, provided.TTTBoard(3, False, [[provided.PLAYERX,
+#                                                    provided.PLAYERX,
+#                                                    provided.PLAYERO],
+#                                                   [provided.PLAYERO,
+#                                                    provided.PLAYERX,
+#                                                    provided.EMPTY],
+#                                                   [provided.EMPTY,
+#                                                    provided.PLAYERX,
+#                                                    provided.PLAYERO]]), 2)
+# print sc
+# expected [[1.0, 1.0, -1.0], [-1.0, 1.0, 0], [0, 1.0, -1.0]] but
+# received [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
