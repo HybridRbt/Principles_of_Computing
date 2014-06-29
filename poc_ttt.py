@@ -41,6 +41,42 @@ def mc_trial(board, player):
         next_player = provided.switch_player(next_player)  # switch player and repeat
 
 
+def update_scores_win(board, scores, player):
+    """
+    update scores when player wins
+    :param board:
+    :param scores:
+    :param player:
+    :return: void
+    """
+    for row_index in range(board.get_dim()):
+        for col_index in range(board.get_dim()):
+            if board.square(row_index, col_index) == player:  # this square gets MCMATCH
+                scores[row_index][col_index] += MCMATCH
+            elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
+                scores[row_index][col_index] += 0
+            else:
+                scores[row_index][col_index] -= MCOTHER
+
+
+def update_scores_lose(board, scores, player):
+    """
+    upadte scores when player lose
+    :param board:
+    :param scores:
+    :param player:
+    :return: void
+    """
+    for row_index in range(board.get_dim()):
+        for col_index in range(board.get_dim()):
+            if board.square(row_index, col_index) == player:  # this square gets MCMATCH
+                scores[row_index][col_index] -= MCMATCH
+            elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
+                scores[row_index][col_index] += 0
+            else:
+                scores[row_index][col_index] += MCOTHER
+
+
 def mc_update_scores(scores, board, player):
     """
     Takes a grid of scores (a list of lists) with the same dimensions as the Tic-Tac-Toe board, a board from a completed
@@ -59,24 +95,10 @@ def mc_update_scores(scores, board, player):
 
     if result == player:  # machine player wins
         # update scores
-        for row_index in range(board.get_dim()):
-            for col_index in range(board.get_dim()):
-                if board.square(row_index, col_index) == player:  # this square gets MCMATCH
-                    scores[row_index][col_index] += MCMATCH
-                elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
-                    scores[row_index][col_index] += 0
-                else:
-                    scores[row_index][col_index] -= MCOTHER
+        update_scores_win(board, scores, player)
     else:  # machine player loses
         # update scores
-        for row_index in range(board.get_dim()):
-            for col_index in range(board.get_dim()):
-                if board.square(row_index, col_index) == player:  # this square gets MCMATCH
-                    scores[row_index][col_index] -= MCMATCH
-                elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
-                    scores[row_index][col_index] += 0
-                else:
-                    scores[row_index][col_index] += MCOTHER
+        update_scores_lose(board, scores, player)
 
 
 def get_best_move(board, scores):
