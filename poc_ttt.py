@@ -133,6 +133,7 @@ def mc_move(board, player, trials):
     number_of_trials = trials
     scores = [[0] * board.get_dim()] * board.get_dim()
 
+    # this gets complained by OwlTest
     # initialize scores dictionary
     # for row_index in range(board.get_dim()):
     #     temp_list = []
