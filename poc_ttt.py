@@ -208,7 +208,7 @@ def get_best_move(board, scores):
             temp_compare_list.append(each_move)
 
     ran_index = random.randrange(0, len(temp_compare_list))
-    best_move = temp_compare_list[ran_index]
+    best_move = temp_compare_list[ran_index][1]
 
     return best_move
 
