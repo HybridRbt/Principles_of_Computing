@@ -48,8 +48,12 @@ def mc_update_scores(scores, board, player):
     Takes a grid of scores (a list of lists) with the same dimensions as the Tic-Tac-Toe board, a board from a completed
     game, and which player the machine player is. The function should score the completed board and update the scores
     grid. As the function updates the scores grid directly, it does not return anything,
+    :param: scores: a list of scores
+    :param: board
+    :param: player: current player
     """
     result = board.check_win()
+    scores = list_to_dict(scores)
     # machine player is "player"
     if result is None:  # still in progress, do nothing
         return
@@ -78,13 +82,30 @@ def mc_update_scores(scores, board, player):
                     scores[(row_index, col_index)] += MCOTHER
 
 
+def list_to_dict(scores):
+    """
+    convert input score list to score dictionary
+    :param scores: a list
+    :return: a score dictionary
+    """
+    score_dict = {}
+    for row_index in range(len(scores)):  # first level
+        for col_index in range(len(scores[row_index])):  # second level
+            score_dict[(row_index, col_index)] = score_dict.get((row_index, col_index), scores[row_index][col_index])
+
+    return score_dict
+
+
 def get_best_move(board, scores):
     """
     Takes a current board and a grid of scores. The function should find all of the empty squares with the maximum
     score and randomly return one of them as a (row, column) tuple. It is an error to call this function with a board
     that has no empty squares (there is no possible next move), so your function may do whatever it wants in that
     case. The case where the board is full will not be tested.
+    :param: board: a board instance
+    :param: scores: a list
     """
+    scores = list_to_dict(scores)
     available_moves = board.get_empty_squares()
     if len(available_moves) == 0:  # no available moves
         return
@@ -142,5 +163,9 @@ def pick_next_move_random(board):
 # Both should be commented out when you submit for
 # testing to save time.
 
-#provided.play_game(mc_move, NTRIALS, False)
+# provided.play_game(mc_move, NTRIALS, False)
 # poc_ttt_gui.run_gui(3, provided.PLAYERX, mc_move, NTRIALS, False)
+
+# print get_best_move(provided.TTTBoard(2, False, [[provided.EMPTY, provided.EMPTY], [provided.EMPTY, provided.EMPTY]]),
+#               [[0, 0], [3, 0]])
+# expected one tuple from [(1, 0)]
