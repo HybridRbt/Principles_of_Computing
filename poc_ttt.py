@@ -1,5 +1,3 @@
-__author__ = 'jeredyang'
-
 """
 Monte Carlo Tic-Tac-Toe Player
 """
