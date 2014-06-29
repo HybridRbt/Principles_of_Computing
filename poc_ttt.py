@@ -10,9 +10,22 @@ import poc_ttt_provided as provided
 
 # Constants for Monte Carlo simulator
 # Change as desired
-NTRIALS = 1  # Number of trials to run
+NTRIALS = 1000  # Number of trials to run
 MCMATCH = 1.0  # Score for squares played by the machine player
 MCOTHER = 1.0  # Score for squares played by the other player
+
+
+def get_max_value(dictionary):
+    """
+    a helper function, takes in a dictionary, compare all its values and find the max, and return it along with its key
+    :param dictionary:
+    :return: tuple (key, value)
+    """
+    temp = []
+    for key, value in dictionary.items():
+        temp.append((value, key))
+
+    return sorted(temp)[-1]
 
 
 def mc_trial(board, player):
@@ -36,13 +49,33 @@ def mc_update_scores(scores, board, player):
     game, and which player the machine player is. The function should score the completed board and update the scores
     grid. As the function updates the scores grid directly, it does not return anything,
     """
+    result = board.check_win()
     # machine player is "player"
-    board.check_win() == player  # machine player wins
+    if result is None:  # still in progress, do nothing
+        return
+    elif result == provided.DRAW:  # tie, do nothing
+        return
 
-    # update scores
-    for each_square in board:
-        if board.square(each_square[0], each_square[1]) == player:  # this square gets MCMATCH
-            scores[]
+    if result == player:  # machine player wins
+        # update scores
+        for row_index in range(board.get_dim()):
+            for col_index in range(board.get_dim()):
+                if board.square(row_index, col_index) == player:  # this square gets MCMATCH
+                    scores[(row_index, col_index)] += MCMATCH
+                elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
+                    scores[(row_index, col_index)] += 0
+                else:
+                    scores[(row_index, col_index)] -= MCOTHER
+    else:  # machine player loses
+        # update scores
+        for row_index in range(board.get_dim()):
+            for col_index in range(board.get_dim()):
+                if board.square(row_index, col_index) == player:  # this square gets MCMATCH
+                    scores[(row_index, col_index)] -= MCMATCH
+                elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
+                    scores[(row_index, col_index)] += 0
+                else:
+                    scores[(row_index, col_index)] += MCOTHER
 
 
 def get_best_move(board, scores):
@@ -56,9 +89,14 @@ def get_best_move(board, scores):
     if len(available_moves) == 0:  # no available moves
         return
 
-    sort_score = []
+    temp_dict = {}
     for each_move in available_moves:
-        sort_score.append((each_move, scores[each_move]))
+        # form a temp dictionary of available squares
+        temp_dict[each_move] = temp_dict.get(each_move, scores[each_move])
+
+    best_move = get_max_value(temp_dict)[1]
+
+    return best_move
 
 
 def mc_move(board, player, trials):
@@ -68,8 +106,22 @@ def mc_move(board, player, trials):
     column) tuple. Be sure to use the other functions you have written!
     """
     number_of_trials = trials
+    scores = {}
+
+    # initialize scores dictionary
+    for row_index in range(board.get_dim()):
+        for col_index in range(board.get_dim()):
+            scores[(row_index, col_index)] = scores.get((row_index, col_index), 0)
+
     while number_of_trials > 0:
-        mc_trial(board, player)
+        temp_board = board.clone()
+        mc_trial(temp_board, player)
+        mc_update_scores(scores, temp_board, player)
+        number_of_trials -= 1
+
+    next_move = get_best_move(board, scores)
+    return next_move
+
 
 def pick_next_move_random(board):
     """
@@ -85,11 +137,10 @@ def pick_next_move_random(board):
 
     return next_move
 
-
 # Test game with the console or the GUI.
 # Uncomment whichever you prefer.
 # Both should be commented out when you submit for
 # testing to save time.
 
-provided.play_game(mc_move, NTRIALS, False)
+#provided.play_game(mc_move, NTRIALS, False)
 # poc_ttt_gui.run_gui(3, provided.PLAYERX, mc_move, NTRIALS, False)
