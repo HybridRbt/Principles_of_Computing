@@ -8,7 +8,7 @@ import poc_ttt_provided as provided
 
 # Constants for Monte Carlo simulator
 # Change as desired
-NTRIALS = 100  # Number of trials to run
+NTRIALS = 10  # Number of trials to run
 MCMATCH = 1.0  # Score for squares played by the machine player
 MCOTHER = 1.0  # Score for squares played by the other player
 
@@ -23,7 +23,7 @@ def sort_dict_by_value(dictionary):
     for key, value in dictionary.items():
         temp.append((value, key))
 
-    return sorted(temp, reverse=True)
+    return sorted(temp, reverse = True)
 
 
 def mc_trial(board, player):
@@ -101,82 +101,6 @@ def mc_update_scores(scores, board, player):
         update_scores_lose(board, scores, player)
 
 
-# def check_row(board, move):
-#     """
-#     check row
-#     :param board:
-#     :param move: move[1] is the nex move
-#     :return:
-#     """
-#     row_list = []
-#     for col in range(board.get_dim()):
-#         if board.square(move[1][0], col) != provided.EMPTY:  # if this square is not empty
-#             row_list.append(board.square(move[1][0], col))
-#
-#     check_dup_in_list(row_list)
-#
-#     return count > 1
-
-
-# def check_col(board, move):
-#     """
-#     check col
-#     :param board:
-#     :param move: move[1] is the next move
-#     :return:
-#     """
-#     count = 0
-#     for row in range(board.get_dim()):
-#         if board.square(row, move[1][1]) != provided.EMPTY:  # if this square is not empty
-#             count += 1
-#
-#     return count > 1
-#
-#
-# def check_dia(board, move):
-#     """
-#     check diag
-#     :param board:
-#     :param move: move[1] is the next move
-#     :return:
-#     """
-#     critical = False
-#
-#     # get the diags
-#     diag1 = [(idx, idx) for idx in range(board.get_dim())]
-#     diag2 = [(idx, board.get_dim() - idx - 1)
-#              for idx in range(board.get_dim())]
-#
-#     # check diag1 first
-#     count = 0
-#     for pos in diag1:
-#         if board.square(pos[0], pos[1]) != provided.EMPTY:  # if this square is not empty
-#             count += 1
-#
-#     if count > 1 and move[1] in diag1:  # this move is critical
-#         critical = True
-#
-#     # check diag2
-#     count = 0
-#     for pos in diag2:
-#         if board.square(pos[0], pos[1]) != provided.EMPTY:  # if this square is not empty
-#             count += 1
-#
-#     if count > 1 and move in diag2:  # this move is critical
-#         critical = True
-#
-#     return critical
-#
-#
-# def check_for_double(board, move):
-#     """
-#     helper function to check double. call check_row, check_col, and check_dia
-#     :param move:
-#     :return: bool
-#     """
-#     return check_row(board, move) or check_col(board, move) or check_dia(board, move)
-
-
 def get_best_move(board, scores):
     """
     Takes a current board and a grid of scores. The function should find all of the empty squares with the maximum
@@ -199,32 +123,13 @@ def get_best_move(board, scores):
     move_list = sort_dict_by_value(temp_dict)
 
     # need to deal w/ equals
-    temp_best_move_score = move_list[0][0]
+    best_move_score = move_list[0][0]
 
-    temp_compare_list = []
-    for each_move in move_list:
-        if each_move[0] == temp_best_move_score:  # a new competitor
-            # add to list
-            temp_compare_list.append(each_move)
-
-    ran_index = random.randrange(0, len(temp_compare_list))
-    best_move = temp_compare_list[ran_index][1]
-
-    return best_move
-
-
-# def check_next_move(board, player, next_move):
-#     temp_compare_list = []
-#     for each_move in move_list:
-#         if each_move[0] == temp_best_move_score:  # a new competitor
-#             # add to list
-#             temp_compare_list.append(each_move)
-#
-#     for each_move in temp_compare_list:
-#         if check_for_double(board, each_move):  # check if there are two squares occupied already, if yes
-#             # this move is top priority
-#             best_move = each_move[1]
-#             break
+    while True:
+        ran_index = random.randrange(0, len(move_list))
+        if move_list[ran_index][0] == best_move_score:
+            best_move = move_list[ran_index][1]
+            return best_move
 
 
 def mc_move(board, player, trials):
@@ -234,16 +139,12 @@ def mc_move(board, player, trials):
     column) tuple. Be sure to use the other functions you have written!
     """
     number_of_trials = trials
-    temp_list = [0] * board.get_dim()
-    scores = [temp_list] * board.get_dim()
+    scores = [[[] for row_index in range(board.get_dim())] for col_index in range(board.get_dim())]
 
-    # this gets complained by OwlTest
     # initialize scores dictionary
-    # for row_index in range(board.get_dim()):
-    #     temp_list = []d
-    #     for col_index in range(board.get_dim()):
-    #         temp_list.append(0)
-    #     scores.append(temp_list)
+    for row_index in range(board.get_dim()):
+        for col_index in range(board.get_dim()):
+            scores[row_index][col_index] = 0
 
     while number_of_trials > 0:
         temp_board = board.clone()
@@ -270,43 +171,51 @@ def pick_next_move_random(board):
 
     return next_move
 
-# Test game with the console or the GUI.
-# Uncomment whichever you prefer.
-# Both should be commented out when you submit for
-# testing to save time.
+    # Test game with the console or the GUI.
+    # Uncomment whichever you prefer.
+    # Both should be commented out when you submit for
+    # testing to save time.
 
-# provided.play_game(mc_move, NTRIALS, False)
-# poc_ttt_gui.run_gui(3, provided.PLAYERX, mc_move, NTRIALS, False)
+    # provided.play_game(mc_move, NTRIALS, False)
+    # poc_ttt_gui.run_gui(3, provided.PLAYERX, mc_move, NTRIALS, False)
 
-# print get_best_move(provided.TTTBoard(2, False, [[provided.EMPTY, provided.EMPTY], [provided.EMPTY, provided.EMPTY]]),
-# [[0, 0], [3, 0]])
-# expected one tuple from [(1, 0)]
+    # print get_best_move(provided.TTTBoard(2, False, [[provided.EMPTY, provided.EMPTY], [provided.EMPTY,
+    # provided.EMPTY]]),
+    # [[0, 0], [3, 0]])
+    # expected one tuple from [(1, 0)]
 
-# print mc_move(provided.TTTBoard(3, False, [[provided.PLAYERX, provided.PLAYERX, provided.PLAYERO],
-# [provided.PLAYERO, provided.PLAYERX, provided.PLAYERX],
-# [provided.PLAYERO, provided.EMPTY, provided.PLAYERO]]),
-# provided.PLAYERX, NTRIALS)
-#
-# print mc_move(provided.TTTBoard(3, False, [[provided.PLAYERX, provided.PLAYERX, provided.PLAYERO],
-#                                            [provided.EMPTY, provided.PLAYERX, provided.PLAYERX],
-#                                            [provided.PLAYERO, provided.EMPTY, provided.PLAYERO]]),
-#               provided.PLAYERO, NTRIALS)
-#
-# sc = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
-# mc_update_scores(sc, provided.TTTBoard(3, False, [[provided.PLAYERX,
-#                                                    provided.PLAYERX,
-#                                                    provided.PLAYERO],
-#                                                   [provided.PLAYERO,
-#                                                    provided.PLAYERX,
-#                                                    provided.EMPTY],
-#                                                   [provided.EMPTY,
-#                                                    provided.PLAYERX,
-#                                                    provided.PLAYERO]]), 2)
-# print sc
-# expected [[1.0, 1.0, -1.0], [-1.0, 1.0, 0], [0, 1.0, -1.0]] but
-# received [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    # print mc_move(provided.TTTBoard(3, False, [[provided.PLAYERX, provided.PLAYERX, provided.PLAYERO],
+    # [provided.PLAYERO, provided.PLAYERX, provided.PLAYERX],
+    # [provided.PLAYERO, provided.EMPTY, provided.PLAYERO]]),
+    # provided.PLAYERX, NTRIALS)
+    #
+    # print mc_move(provided.TTTBoard(3, False, [[provided.PLAYERX, provided.PLAYERX, provided.PLAYERO],
+    # [provided.EMPTY, provided.PLAYERX, provided.PLAYERX],
+    # [provided.PLAYERO, provided.EMPTY, provided.PLAYERO]]),
+    #               provided.PLAYERO, NTRIALS)
+    #
+    # sc = [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+    # mc_update_scores(sc, provided.TTTBoard(3, False, [[provided.PLAYERX,
+    #                                                    provided.PLAYERX,
+    #                                                    provided.PLAYERO],
+    #                                                   [provided.PLAYERO,
+    #                                                    provided.PLAYERX,
+    #                                                    provided.EMPTY],
+    #                                                   [provided.EMPTY,
+    #                                                    provided.PLAYERX,
+    #                                                    provided.PLAYERO]]), 2)
+    # print sc
+    # expected [[1.0, 1.0, -1.0], [-1.0, 1.0, 0], [0, 1.0, -1.0]] but
+    # received [[0, 0, 0], [0, 0, 0], [0, 0, 0]]
+
 
 # print mc_move(provided.TTTBoard(3, False, [[provided.PLAYERX, provided.EMPTY, provided.EMPTY],
-#                                            [provided.PLAYERO, provided.PLAYERO, provided.EMPTY],
-#                                            [provided.EMPTY, provided.PLAYERX, provided.EMPTY]]),
+# [provided.PLAYERO, provided.PLAYERO, provided.EMPTY],
+# [provided.EMPTY, provided.PLAYERX, provided.EMPTY]]),
 #               provided.PLAYERX, NTRIALS)
+
+# print mc_move(provided.TTTBoard(3, False, [[provided.EMPTY, provided.PLAYERX, provided.PLAYERX],
+#                                            [provided.PLAYERO, provided.EMPTY, provided.PLAYERX],
+#                                            [provided.PLAYERO, provided.PLAYERX, provided.EMPTY]]),
+#               provided.PLAYERO,
+#               NTRIALS)
