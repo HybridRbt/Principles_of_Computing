@@ -41,7 +41,7 @@ def run_example():
     return permtutations, permtutations1, permtutations2
 
 
-def test_example(perm_exp, perm_act ):
+def test_example(perm_exp, perm_act):
     for each_set in perm_exp:
         if each_set not in perm_act:
             print "Failed"
