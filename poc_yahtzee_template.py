@@ -4,9 +4,9 @@ Simplifications:  only allow discard and roll, only score against upper level
 """
 
 # Used to increase the timeout, if necessary
-#import codeskulptor
+import codeskulptor
 
-#codeskulptor.set_timeout(20)
+codeskulptor.set_timeout(20)
 
 
 def gen_all_sequences(outcomes, length):
@@ -137,7 +137,39 @@ def strategy(hand, num_die_sides):
     Returns a tuple where the first element is the expected score and
     the second element is a tuple of the dice to hold
     """
-    return (0.0, ())
+    holds_dict = {}
+    possible_hold = gen_all_holds(hand)
+
+    for each_hold in possible_hold:
+        exp_val_for_each_hold = expected_value(each_hold, num_die_sides, len(hand) - len(each_hold))
+        holds_dict[each_hold] = holds_dict.get(each_hold, exp_val_for_each_hold)
+
+    temp_list = []
+    for key, value in holds_dict.items():
+        temp_list.append((value, key))
+
+    return sorted(temp_list, reverse=True)[0]
+
+
+def test_strategy(hand, num_die_sides):
+    """
+    Compute the hold that maximizes the expected value when the
+    discarded dice are rolled.
+
+    hand: full yahtzee hand
+    num_die_sides: number of sides on each die
+
+    Returns a tuple where the first element is the expected score and
+    the second element is a tuple of the dice to hold
+    """
+    holds_dict = {}
+    possible_hold = gen_all_holds(hand)
+
+    for each_hold in possible_hold:
+        exp_val_for_each_hold = expected_value(each_hold, num_die_sides, len(hand) - len(each_hold))
+        holds_dict[each_hold] = holds_dict.get(each_hold, exp_val_for_each_hold)
+
+    return holds_dict
 
 
 def run_example():
@@ -150,7 +182,19 @@ def run_example():
     print "Best strategy for hand", hand, "is to hold", hold, "with expected score", hand_score
 
 
-#run_example()
+def test_example():
+    """
+    Compute the dice to hold and expected score for an example hand
+    """
+    num_die_sides = 6
+    hand = (2, 1, 1)
+    hand_score_dict = test_strategy(hand, num_die_sides)
+    for each_item in hand_score_dict.items():
+        print str(each_item)
+#
+# run_example()
+# test_example()
+
 
 def test():
     hand1 = (2, 3, 3, 3, 1)
@@ -182,9 +226,9 @@ def test():
 
 # test()
 
-
-import poc_holds_testsuite
-poc_holds_testsuite.run_suite(gen_all_holds)
+#
+# import poc_holds_testsuite
+# poc_holds_testsuite.run_suite(gen_all_holds)
 
 
 
