@@ -45,10 +45,9 @@ def score(hand):
     # score_list = [0 for score_idx in range(4)]
     score_tuple = ()
 
-    for score_index in range(6):
-        for each_dice in hand:
-            temp_score = each_dice * hand.count(each_dice)
-            score_tuple = score_tuple + (temp_score,)
+    for each_dice in hand:
+        temp_score = each_dice * hand.count(each_dice)
+        score_tuple = score_tuple + (temp_score,)
 
     return max(score_tuple)
 
