@@ -53,7 +53,7 @@ def score(hand):
         # score_list[score_index] = temp_score
         score_tuple = score_tuple + (temp_score,)
 
-    return max(score_tuple)
+    return sum(score_tuple)
 
 
 def expected_value_for_a_roll(hand):
@@ -98,7 +98,8 @@ def expected_value(held_dice, num_die_sides, num_free_dice):
     for each_roll in possible_rolls:
         total_dice = held_dice + each_roll
         total_score += score(total_dice)
-        exp_value += float(total_score) / len(possible_rolls)
+
+    exp_value += float(total_score) / len(possible_rolls)
 
     return exp_value
 
@@ -140,14 +141,36 @@ def run_example():
 
 #run_example()
 
-# hand = (2, 3, 3, 3, 4)
-# print score(hand)
+def test():
+    hand1 = (2, 3, 3, 3, 1)
+    print score(hand1)
+
+    hand2 = (2, 3, 3, 3, 2)
+    print score(hand2)
+
+    hand3 = (2, 3, 3, 3, 3)
+    print score(hand3)
+
+    hand4 = (2, 3, 3, 3, 4)
+    print score(hand4)
+
+    hand5 = (2, 3, 3, 3, 5)
+    print score(hand5)
+
+    hand6 = (2, 3, 3, 3, 6)
+    print score(hand6)
+
+    held_dice = (2, 3, 3, 3)
+    num_die_sides = 6
+    num_free_dice = 1
+    print expected_value(held_dice, num_die_sides, num_free_dice)
+
+    assert score(hand1) + score(hand2) + score(hand3) + score(hand4) + score(hand5) + score(hand6) == expected_value(
+        held_dice, num_die_sides, num_free_dice) * 6
 
 
-held_dice = (2, 3, 3, 3)
-num_die_sides = 6
-num_free_dice = 1
-print expected_value(held_dice, num_die_sides, 1)
+test()
+
 
 # import poc_holds_testsuite
 #poc_holds_testsuite.run_suite(gen_all_holds)
