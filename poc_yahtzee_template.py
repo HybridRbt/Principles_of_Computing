@@ -74,8 +74,7 @@ def expected_value_for_a_roll(hand):
     exp_value = 0
     for each_num in num_dict:
         # for each number in this dict, its expected value is key * dic[key] / len(hand)
-        temp_value = each_num * num_dict[each_num] / float(len(hand))
-        exp_value += temp_value
+        exp_value += each_num * num_dict[each_num] / float(len(hand))
 
     return exp_value
 
@@ -94,11 +93,14 @@ def expected_value(held_dice, num_die_sides, num_free_dice):
     outcomes = [number + 1 for number in range(num_die_sides)]
 
     possible_rolls = gen_all_sequences(outcomes, num_free_dice)
+    exp_value = 0
+    total_score = 0
     for each_roll in possible_rolls:
         total_dice = held_dice + each_roll
-        expected_value_for_a_roll(total_dice)
+        total_score += score(total_dice)
+        exp_value += float(total_score) / len(possible_rolls)
 
-    return 0.0
+    return exp_value
 
 
 def gen_all_holds(hand):
@@ -141,8 +143,11 @@ def run_example():
 # hand = (2, 3, 3, 3, 4)
 # print score(hand)
 
-hand = (2, 3, 3, 3, 4)
-print expected_value_for_a_roll(hand)
+
+held_dice = (2, 3, 3, 3)
+num_die_sides = 6
+num_free_dice = 1
+print expected_value(held_dice, num_die_sides, 1)
 
 # import poc_holds_testsuite
 #poc_holds_testsuite.run_suite(gen_all_holds)
