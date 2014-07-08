@@ -90,6 +90,7 @@ def expected_value(held_dice, num_die_sides, num_free_dice):
 
     Returns a floating point expected value
     """
+    # should assert that if held_dice + num_free_dice == the total number of dice
     outcomes = [number + 1 for number in range(num_die_sides)]
 
     possible_rolls = gen_all_sequences(outcomes, num_free_dice)
@@ -112,7 +113,17 @@ def gen_all_holds(hand):
 
     Returns a set of tuples, where each tuple is dice to hold
     """
-    return set([()])
+    holds = set([()])
+
+    if len(hand) == 0:
+        return holds
+    else:
+        temp_hands = hand[:-1]
+        for each_tuple in gen_all_holds(temp_hands):
+            holds.add(each_tuple)
+            holds.add((each_tuple + (hand[-1],)))
+
+    return holds
 
 
 def strategy(hand, num_die_sides):
@@ -169,11 +180,11 @@ def test():
         held_dice, num_die_sides, num_free_dice) * 6
 
 
-test()
+# test()
 
 
-# import poc_holds_testsuite
-#poc_holds_testsuite.run_suite(gen_all_holds)
+import poc_holds_testsuite
+poc_holds_testsuite.run_suite(gen_all_holds)
 
 
 
