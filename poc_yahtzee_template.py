@@ -56,6 +56,30 @@ def score(hand):
     return max(score_tuple)
 
 
+def expected_value_for_a_roll(hand):
+    """
+    Compute the expected value for a hand (rep. by a tuple of integers)
+    use a dictionary to keep track of the numbers and the times it occurs
+    :param hand:
+    :return: a floating point number
+    """
+    num_dict = {}
+
+    for each_num in hand:
+        if each_num not in num_dict:
+            num_dict[each_num] = num_dict.get(each_num, 1)  # if this is the first occurrence of num, note it down
+        else:
+            num_dict[each_num] += 1  # otherwise add its occurrence by 1
+
+    exp_value = 0
+    for each_num in num_dict:
+        # for each number in this dict, its expected value is key * dic[key] / len(hand)
+        temp_value = each_num * num_dict[each_num] / float(len(hand))
+        exp_value += temp_value
+
+    return exp_value
+
+
 def expected_value(held_dice, num_die_sides, num_free_dice):
     """
     Compute the expected value of the held_dice given that there
@@ -67,6 +91,13 @@ def expected_value(held_dice, num_die_sides, num_free_dice):
 
     Returns a floating point expected value
     """
+    outcomes = [number + 1 for number in range(num_die_sides)]
+
+    possible_rolls = gen_all_sequences(outcomes, num_free_dice)
+    for each_roll in possible_rolls:
+        total_dice = held_dice + each_roll
+        expected_value_for_a_roll(total_dice)
+
     return 0.0
 
 
@@ -106,8 +137,12 @@ def run_example():
 
 
 #run_example()
+
+# hand = (2, 3, 3, 3, 4)
+# print score(hand)
+
 hand = (2, 3, 3, 3, 4)
-print score(hand)
+print expected_value_for_a_roll(hand)
 
 # import poc_holds_testsuite
 #poc_holds_testsuite.run_suite(gen_all_holds)
