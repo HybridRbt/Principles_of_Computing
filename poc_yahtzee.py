@@ -198,10 +198,10 @@ def test_example():
 #         held_dice, num_die_sides, num_free_dice) * 6
 
 # test()
-hold = (3, 3, (3, 5))
-
-print hold.count(3)
-print expected_value((3, 3), 8, 5)
+# hold = (3, 3, (3, 5))
+#
+# print hold.count(3)
+# print expected_value((3, 3), 8, 5)
 #
 # import poc_holds_testsuite
 # poc_holds_testsuite.run_suite(gen_all_holds)
