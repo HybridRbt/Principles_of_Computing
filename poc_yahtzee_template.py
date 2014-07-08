@@ -4,9 +4,9 @@ Simplifications:  only allow discard and roll, only score against upper level
 """
 
 # Used to increase the timeout, if necessary
-import codeskulptor
+# import codeskulptor
 
-codeskulptor.set_timeout(20)
+# codeskulptor.set_timeout(20)
 
 
 def gen_all_sequences(outcomes, length):
@@ -41,42 +41,16 @@ def score(hand):
     # list[1] = score at twos
     # list[2] = score at threes
     # list[3] = score at fours
-
+    # ....
     # score_list = [0 for score_idx in range(4)]
     score_tuple = ()
 
-    for score_index in range(4):
-        temp_score = 0
+    for score_index in range(6):
         for each_dice in hand:
-            if each_dice == score_index + 1:
-                temp_score += each_dice
-        # score_list[score_index] = temp_score
-        score_tuple = score_tuple + (temp_score,)
+            temp_score = each_dice * hand.count(each_dice)
+            score_tuple = score_tuple + (temp_score,)
 
-    return sum(score_tuple)
-
-
-def expected_value_for_a_roll(hand):
-    """
-    Compute the expected value for a hand (rep. by a tuple of integers)
-    use a dictionary to keep track of the numbers and the times it occurs
-    :param hand:
-    :return: a floating point number
-    """
-    num_dict = {}
-
-    for each_num in hand:
-        if each_num not in num_dict:
-            num_dict[each_num] = num_dict.get(each_num, 1)  # if this is the first occurrence of num, note it down
-        else:
-            num_dict[each_num] += 1  # otherwise add its occurrence by 1
-
-    exp_value = 0
-    for each_num in num_dict:
-        # for each number in this dict, its expected value is key * dic[key] / len(hand)
-        exp_value += each_num * num_dict[each_num] / float(len(hand))
-
-    return exp_value
+    return max(score_tuple)
 
 
 def expected_value(held_dice, num_die_sides, num_free_dice):
@@ -100,7 +74,7 @@ def expected_value(held_dice, num_die_sides, num_free_dice):
         total_dice = held_dice + each_roll
         total_score += score(total_dice)
 
-    exp_value += float(total_score) / len(possible_rolls)
+    exp_value += total_score / float(len(possible_rolls))
 
     return exp_value
 
@@ -148,7 +122,7 @@ def strategy(hand, num_die_sides):
     for key, value in holds_dict.items():
         temp_list.append((value, key))
 
-    return sorted(temp_list, reverse=True)[0]
+    return sorted(temp_list, reverse = True)[0]
 
 
 def test_strategy(hand, num_die_sides):
@@ -191,41 +165,43 @@ def test_example():
     hand_score_dict = test_strategy(hand, num_die_sides)
     for each_item in hand_score_dict.items():
         print str(each_item)
-#
+
 # run_example()
 # test_example()
 
 
-def test():
-    hand1 = (2, 3, 3, 3, 1)
-    print score(hand1)
-
-    hand2 = (2, 3, 3, 3, 2)
-    print score(hand2)
-
-    hand3 = (2, 3, 3, 3, 3)
-    print score(hand3)
-
-    hand4 = (2, 3, 3, 3, 4)
-    print score(hand4)
-
-    hand5 = (2, 3, 3, 3, 5)
-    print score(hand5)
-
-    hand6 = (2, 3, 3, 3, 6)
-    print score(hand6)
-
-    held_dice = (2, 3, 3, 3)
-    num_die_sides = 6
-    num_free_dice = 1
-    print expected_value(held_dice, num_die_sides, num_free_dice)
-
-    assert score(hand1) + score(hand2) + score(hand3) + score(hand4) + score(hand5) + score(hand6) == expected_value(
-        held_dice, num_die_sides, num_free_dice) * 6
-
+# def test():
+# hand1 = (2, 3, 3, 3, 1)
+# print score(hand1)
+#
+# hand2 = (2, 3, 3, 3, 2)
+# print score(hand2)
+#
+#     hand3 = (2, 3, 3, 3, 3)
+#     print score(hand3)
+#
+#     hand4 = (2, 3, 3, 3, 4)
+#     print score(hand4)
+#
+#     hand5 = (2, 3, 3, 3, 5)
+#     print score(hand5)
+#
+#     hand6 = (2, 3, 3, 3, 6)
+#     print score(hand6)
+#
+#     held_dice = (2, 3, 3, 3)
+#     num_die_sides = 6
+#     num_free_dice = 1
+#     print expected_value(held_dice, num_die_sides, num_free_dice)
+#
+#     assert score(hand1) + score(hand2) + score(hand3) + score(hand4) + score(hand5) + score(hand6) == expected_value(
+#         held_dice, num_die_sides, num_free_dice) * 6
 
 # test()
+hold = (3, 3, (3, 5))
 
+print hold.count(3)
+print expected_value((3, 3), 8, 5)
 #
 # import poc_holds_testsuite
 # poc_holds_testsuite.run_suite(gen_all_holds)
