@@ -188,47 +188,47 @@ class TwentyFortyEight:
     """
 
     def __init__(self, grid_height, grid_width):
-        self.height = grid_height
-        self.width = grid_width
-        self.cells = {}
-        self.avi_cells = []
-        self.ini_tiles = get_initial_tiles(self.width, self.height)
+        self._height = grid_height
+        self._width = grid_width
+        self._cells = {}
+        self._avi_cells = []
+        self._ini_tiles = get_initial_tiles(self._width, self._height)
         self.ini_cells()
 
     def reset(self):
         """
         Reset the game so the grid is empty.
         """
-        self.avi_cells = []
-        for row in range(self.height):
-            for col in range(self.width):
-                self.cells[(row, col)] = 0
-                self.avi_cells.append((row, col))
+        self._avi_cells = []
+        for row in range(self._height):
+            for col in range(self._width):
+                self._cells[(row, col)] = 0
+                self._avi_cells.append((row, col))
 
     def ini_cells(self):
         """
         Reset the game so the grid is empty.
         """
-        self.avi_cells = []
-        for row in range(self.height):
-            for col in range(self.width):
-                self.cells[(row, col)] = self.cells.get((row, col), 0)
-                self.avi_cells.append((row, col))
+        self._avi_cells = []
+        for row in range(self._height):
+            for col in range(self._width):
+                self._cells[(row, col)] = self._cells.get((row, col), 0)
+                self._avi_cells.append((row, col))
 
     def __str__(self):
         """
         Return a string representation of the grid for debugging.
         """
         string = ""
-        for row in range(self.height):
+        for row in range(self._height):
             # literate to 1 element before the end
-            for col in range(self.width):
+            for col in range(self._width):
                 # this is the end of the line
-                if col == self.width - 1:
-                    string += str(self.cells[(row, col)]) + "\n"
+                if col == self._width - 1:
+                    string += str(self._cells[(row, col)]) + "\n"
                 # otherwise separated by ", ". so there will be no ", " at the end of each line
                 else:
-                    string += str(self.cells[(row, col)]) + ", "
+                    string += str(self._cells[(row, col)]) + ", "
 
         return string
 
@@ -237,14 +237,14 @@ class TwentyFortyEight:
         Get the height of the board.
         """
         # replace with your code
-        return self.height
+        return self._height
 
     def get_grid_width(self):
         """
         Get the width of the board.
         """
         # replace with your code
-        return self.width
+        return self._width
 
     def move(self, direction):
         """
@@ -253,15 +253,15 @@ class TwentyFortyEight:
         """
         tile_changed = False
 
-        for each in self.ini_tiles[direction]:
+        for each in self._ini_tiles[direction]:
             temp_ls = []
 
             target_row = each[0]
             target_col = each[1]
 
             # add cells to the list until the index exceeds
-            while (target_row, target_col) in self.cells:
-                temp_ls.append(self.cells[(target_row, target_col)])
+            while (target_row, target_col) in self._cells:
+                temp_ls.append(self._cells[(target_row, target_col)])
                 target_row += OFFSETS[direction][0]
                 target_col += OFFSETS[direction][1]
 
@@ -274,12 +274,12 @@ class TwentyFortyEight:
             ls_index = 0
 
             # add cells to the list until the index exceeds
-            while (target_row, target_col) in self.cells:
+            while (target_row, target_col) in self._cells:
                 # if the new value is not equal to original value, the tile must have changed
-                if self.cells[(target_row, target_col)] != temp_ls[ls_index]:
+                if self._cells[(target_row, target_col)] != temp_ls[ls_index]:
                     tile_changed = True
 
-                self.cells[(target_row, target_col)] = temp_ls[ls_index]
+                self._cells[(target_row, target_col)] = temp_ls[ls_index]
                 target_row += OFFSETS[direction][0]
                 target_col += OFFSETS[direction][1]
                 ls_index += 1
@@ -294,28 +294,28 @@ class TwentyFortyEight:
         square.  The tile should be 2 90% of the time and
         4 10% of the time.
         """
-        new_row = get_ran_num(self.height)
-        new_col = get_ran_num(self.width)
+        new_row = get_ran_num(self._height)
+        new_col = get_ran_num(self._width)
 
         # cannot pick a (row, col) where there is already a tile with valid value
         while self.get_tile(new_row, new_col) != 0:
-            new_row = get_ran_num(self.height)
-            new_col = get_ran_num(self.width)
+            new_row = get_ran_num(self._height)
+            new_col = get_ran_num(self._width)
 
-        self.cells[(new_row, new_col)] = generate_value()
+        self._cells[(new_row, new_col)] = generate_value()
 
     def set_tile(self, row, col, value):
         """
         Set the tile at position row, col to have the given value.
         """
-        self.cells[(row, col)] = value
-        self.avi_cells.remove((row, col))
+        self._cells[(row, col)] = value
+        self._avi_cells.remove((row, col))
 
     def get_tile(self, row, col):
         """
         Return the value of the tile at position row, col.
         """
-        return self.cells[(row, col)]
+        return self._cells[(row, col)]
 
 
     # test_grid = TwentyFortyEight(4, 4)
