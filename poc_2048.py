@@ -307,7 +307,8 @@ class TwentyFortyEight:
         Set the tile at position row, col to have the given value.
         """
         self._cells[(row, col)] = value
-        self._avi_cells.remove((row, col))
+        if (row, col) in self._avi_cells:
+            self._avi_cells.remove((row, col))
 
     def get_tile(self, row, col):
         """
