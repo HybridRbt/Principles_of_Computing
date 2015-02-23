@@ -197,13 +197,11 @@ class TwentyFortyEight:
 
     def reset(self):
         """
-        Reset the game so the grid is empty.
+        Reset the game so the grid is empty. then generate two new tiles randomly
         """
-        self._avi_cells = []
-        for row in range(self._height):
-            for col in range(self._width):
-                self._cells[(row, col)] = 0
-                self._avi_cells.append((row, col))
+        self.ini_cells()
+        self.new_tile()
+        self.new_tile()
 
     def ini_cells(self):
         """
