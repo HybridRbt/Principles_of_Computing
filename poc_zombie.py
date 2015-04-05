@@ -7,7 +7,7 @@ Student portion of Zombie Apocalypse mini-project
 import random
 import poc_grid
 import poc_queue
-# import poc_zombie_gui
+import poc_zombie_gui
 
 # global constants
 EMPTY = 0
@@ -120,5 +120,5 @@ class Zombie(poc_grid.Grid):
 # Start up gui for simulation - You will need to write some code above
 # before this will work without errors
 
-# poc_zombie_gui.run_gui(Zombie(30, 40))
+poc_zombie_gui.run_gui(Zombie(30, 40))
 
