@@ -50,7 +50,7 @@ class Zombie(poc_grid.Grid):
         Reset zombie and human lists to be empty
         """
         # clear obstacle
-        self.clear()
+        poc_grid.Grid.clear(self)
 
         # clear human and zombie list
         self._zombie_list = []
