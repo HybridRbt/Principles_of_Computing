@@ -120,6 +120,18 @@ class Zombie(poc_grid.Grid):
             for each_zombie in self._zombie_list:
                 visited.set_full(each_zombie[0], each_zombie[1])
                 distance_field[each_zombie[0]][each_zombie[1]] = 0
+
+            # do BFS search
+            while len(boundary) > 0:
+                current_cell = boundary.dequeue()
+                for each_neighbor in self.eight_neighbors(current_cell[0], current_cell[1]):
+                    if visited.is_empty(each_neighbor[0], each_neighbor[1]):
+                        # not visited and passable
+                        visited.set_full(each_neighbor[0], each_neighbor[1])
+                        boundary.enqueue(each_neighbor)
+                        # update distance
+                        current_distance = distance_field[current_cell[0]][current_cell[1]]
+                        distance_field[each_neighbor[0]][each_neighbor[1]] = current_distance + 1
         else:
             # copy human list
             for each_human in self._human_list:
@@ -191,9 +203,3 @@ class Zombie(poc_grid.Grid):
 
 #poc_zombie_gui.run_gui(Zombie(30, 40))
 
-new_grid = Zombie(3, 3, [], [], [(2, 2)])
-print new_grid.compute_distance_field('human')
-# expected
-# [[4, 3, 2],
-#  [3, 2, 1],
-#  [2, 1, 0]]
