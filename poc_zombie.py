@@ -1,5 +1,3 @@
-__author__ = 'jeredyang'
-
 """
 Student portion of Zombie Apocalypse mini-project
 """
