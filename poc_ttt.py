@@ -9,8 +9,10 @@ import poc_ttt_provided as provided
 # Constants for Monte Carlo simulator
 # Change as desired
 NTRIALS = 10  # Number of trials to run
-MCMATCH = 1.0  # Score for squares played by the machine player
-MCOTHER = 1.0  # Score for squares played by the other player
+#MCMATCH = 1.0  # Score for squares played by the machine player
+SCORE_CURRENT = 1.0  # Score for squares played by the machine player  # new constant name in 2015 version
+#MCOTHER = 1.0  # Score for squares played by the other player
+SCORE_OTHER = 1.0  # Score for squares played by the other player  # new constant name in 2015 version
 
 
 def sort_dict_by_value(dictionary):
@@ -23,7 +25,7 @@ def sort_dict_by_value(dictionary):
     for key, value in dictionary.items():
         temp.append((value, key))
 
-    return sorted(temp, reverse = True)
+    return sorted(temp, reverse=True)
 
 
 def mc_trial(board, player):
@@ -52,16 +54,16 @@ def update_scores_win(board, scores, player):
     for row_index in range(board.get_dim()):
         for col_index in range(board.get_dim()):
             if board.square(row_index, col_index) == player:  # this square gets MCMATCH
-                scores[row_index][col_index] += MCMATCH
+                scores[row_index][col_index] += SCORE_CURRENT
             elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
                 scores[row_index][col_index] += 0
             else:
-                scores[row_index][col_index] -= MCOTHER
+                scores[row_index][col_index] -= SCORE_OTHER
 
 
 def update_scores_lose(board, scores, player):
     """
-    upadte scores when player lose
+    update scores when player lose
     :param board:
     :param scores:
     :param player:
@@ -70,11 +72,11 @@ def update_scores_lose(board, scores, player):
     for row_index in range(board.get_dim()):
         for col_index in range(board.get_dim()):
             if board.square(row_index, col_index) == player:  # this square gets -MCMATCH
-                scores[row_index][col_index] -= MCMATCH
+                scores[row_index][col_index] -= SCORE_CURRENT
             elif board.square(row_index, col_index) == provided.EMPTY:  # gets 0
                 scores[row_index][col_index] += 0
             else:
-                scores[row_index][col_index] += MCOTHER
+                scores[row_index][col_index] += SCORE_OTHER
 
 
 def mc_update_scores(scores, board, player):

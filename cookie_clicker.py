@@ -9,7 +9,7 @@ Mini project for week 1
 # Used to increase the timeout, if necessary
 import codeskulptor
 
-codeskulptor.set_timeout(2000)
+codeskulptor.set_timeout(20)
 
 import poc_clicker_provided as provided
 import math
@@ -76,7 +76,8 @@ class ClickerState:
 
         For example: (0.0, None, 0.0, 0.0)
         """
-        return self._game_history
+        history = self._game_history
+        return history
 
     def time_until(self, cookies):
         """
@@ -138,12 +139,12 @@ def simulate_clicker(build_info, duration, strategy):
     # create a new ClickerState object
     my_state = ClickerState()
 
-    #  loop until the time in the ClickerState object reaches the duration of the simulation
+    # loop until the time in the ClickerState object reaches the duration of the simulation
     while my_state.get_time() <= duration:
-        next_upgrade = strategy(my_state.get_cookies(), my_state.get_cps(), duration - my_state.get_time(),
-                                my_build_info)
+        next_upgrade = strategy(my_state.get_cookies(), my_state.get_cps(), my_state.get_history(), duration -
+                                my_state.get_time(), my_build_info)
         if next_upgrade is None:
-            #break
+            # break
             # instead of break out simulation now, stop it at the duration time
             my_state.wait(duration - my_state.get_time())
             return my_state
@@ -172,12 +173,12 @@ def strategy_cursor(cookies, cps, time_left, build_info):
     """
     # check if time left is enough to buy a cursor
     # if cps * time_left + cookies < build_info.get_cost("Cursor"):
-    #     return None
+    # return None
 
     return "Cursor"
 
 
-def strategy_none(cookies, cps, time_left, build_info):
+def strategy_none(cookies, cps, history, time_left, build_info):
     """
     Always return None
 
@@ -187,7 +188,7 @@ def strategy_none(cookies, cps, time_left, build_info):
     return None
 
 
-def strategy_cheap(cookies, cps, time_left, build_info):
+def strategy_cheap(cookies, cps, history, time_left, build_info):
     """
     Always choose the cheapest item
     """
@@ -213,7 +214,7 @@ def strategy_cheap(cookies, cps, time_left, build_info):
     return next_item
 
 
-def strategy_expensive(cookies, cps, time_left, build_info):
+def strategy_expensive(cookies, cps, history, time_left, build_info):
     """
     Always choose the most expensive item
     """
@@ -226,7 +227,7 @@ def strategy_expensive(cookies, cps, time_left, build_info):
         my_dictionary[each_item] = my_dictionary.get(each_item, build_info.get_cost(each_item))
 
     # build a sorted list based on the cost
-    temp_list = sorted(((value, key) for (key, value) in my_dictionary.items()), reverse = True)
+    temp_list = sorted(((value, key) for (key, value) in my_dictionary.items()), reverse=True)
 
     # for each item in the list, pick the one with highest cost, check if time left is enough to buy this next_item,
     # if not, try next one, until found one and break
@@ -242,7 +243,7 @@ def strategy_expensive(cookies, cps, time_left, build_info):
     return None
 
 
-def strategy_best(cookies, cps, time_left, build_info):
+def strategy_best(cookies, cps, history, time_left, build_info):
     """
     The best strategy
     """
@@ -300,8 +301,8 @@ def run():
     run_strategy("Best", SIM_TIME, strategy_best)
 
 
-#run()
-#print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 500, strategy_cursor)
+# run()
+# print simulate_clicker(provided.BuildInfo({'Cursor': [15.0, 0.10000000000000001]}, 1.15), 500, strategy_cursor)
 
 # def test_state():
 #     my_state = ClickerState()  # initiate a state
