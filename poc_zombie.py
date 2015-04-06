@@ -201,3 +201,9 @@ class Zombie(poc_grid.Grid):
 
 #poc_zombie_gui.run_gui(Zombie(30, 40))
 
+# new_grid = Zombie(30, 30, [], [], [(2, 2)])
+# print new_grid.compute_distance_field('human')
+# # expected
+# # [[4, 3, 2],
+# #  [3, 2, 1],
+# #  [2, 1, 0]]
