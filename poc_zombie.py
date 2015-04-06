@@ -5,7 +5,7 @@ Student portion of Zombie Apocalypse mini-project
 import random
 import poc_grid
 import poc_queue
-#import poc_zombie_gui
+# import poc_zombie_gui
 
 # global constants
 EMPTY = 0
@@ -131,7 +131,8 @@ class Zombie(poc_grid.Grid):
         while len(boundary) > 0:
             current_cell = boundary.dequeue()
             for each_neighbor in self.four_neighbors(current_cell[0], current_cell[1]):
-                if visited.is_empty(each_neighbor[0], each_neighbor[1]):
+                if self.is_empty(each_neighbor[0], each_neighbor[1]) and visited.is_empty(each_neighbor[0],
+                                                                                          each_neighbor[1]):
                     # not visited and passable
                     visited.set_full(each_neighbor[0], each_neighbor[1])
                     boundary.enqueue(each_neighbor)
