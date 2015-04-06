@@ -71,8 +71,8 @@ class Zombie(poc_grid.Grid):
         Generator that yields the zombies in the order they were
         added.
         """
-        for each_zombie in self._zombie_list:
-            yield each_zombie
+        for index in range(len(self._zombie_list)):
+            yield self._zombie_list[index]
 
     def add_human(self, row, col):
         """
@@ -90,8 +90,8 @@ class Zombie(poc_grid.Grid):
         """
         Generator that yields the humans in the order they were added.
         """
-        for each_human in self._human_list:
-            yield each_human
+        for index in range(len(self._human_list)):
+            yield self._human_list[index]
 
     def compute_distance_field(self, entity_type):
         """
@@ -112,20 +112,22 @@ class Zombie(poc_grid.Grid):
 
         if entity_type == "zombie":
             # copy zombie list
-            for each_zombie in self._zombie_list:
-                boundary.enqueue(each_zombie)
+            for index in range(len(self._zombie_list)):
+                boundary.enqueue(self._zombie_list[index])
             # ini visited with the zombie list
-            for each_zombie in self._zombie_list:
-                visited.set_full(each_zombie[0], each_zombie[1])
-                distance_field[each_zombie[0]][each_zombie[1]] = 0
+            for index in range(len(self._zombie_list)):
+                current_zombie = self._zombie_list[index]
+                visited.set_full(current_zombie[0], current_zombie[1])
+                distance_field[current_zombie[0]][current_zombie[1]] = 0
         else:
             # copy human list
-            for each_human in self._human_list:
-                boundary.enqueue(each_human)
+            for index in range(len(self._human_list)):
+                boundary.enqueue(self._human_list[index])
             # ini visited with the zombie list
-            for each_human in self._human_list:
-                visited.set_full(each_human[0], each_human[1])
-                distance_field[each_human[0]][each_human[1]] = 0
+            for index in range(len(self._human_list)):
+                current_human = self._human_list[index]
+                visited.set_full(current_human[0], current_human[1])
+                distance_field[current_human[0]][current_human[1]] = 0
 
         # do BFS search
         while len(boundary) > 0:
@@ -153,15 +155,14 @@ class Zombie(poc_grid.Grid):
             current_distance = zombie_distance[each_human[0]][each_human[1]]
             # pick from 8 neighbors
             for each_neighbor in self.eight_neighbors(each_human[0], each_human[1]):
-                if zombie_distance[each_neighbor[0]][each_neighbor[1]] > current_distance:
+                if self.is_empty(each_neighbor[0], each_neighbor[1]) \
+                        and zombie_distance[each_neighbor[0]][each_neighbor[1]] > current_distance:
                     # better place, renew current distance
                     current_distance = zombie_distance[each_neighbor[0]][each_neighbor[1]]
                     current_pos = each_neighbor
                     # else stay
             # move human to the better place
-            if current_pos != each_human:
-                self.add_human(current_pos[0], current_pos[1])
-                self._human_list.remove(each_human)
+            self._human_list[self._human_list.index(each_human)] = current_pos
 
     def move_zombies(self, human_distance):
         """
@@ -174,24 +175,17 @@ class Zombie(poc_grid.Grid):
             current_distance = human_distance[each_zombie[0]][each_zombie[1]]
             # pick from 4 neighbors
             for each_neighbor in self.four_neighbors(each_zombie[0], each_zombie[1]):
-                if human_distance[each_neighbor[0]][each_neighbor[1]] < current_distance:
+                if self.is_empty(each_neighbor[0], each_neighbor[1]) and \
+                                human_distance[each_neighbor[0]][each_neighbor[1]] < current_distance:
                     # better place, renew current distance
                     current_distance = human_distance[each_neighbor[0]][each_neighbor[1]]
                     current_pos = each_neighbor
                     # else stay
-            # if it's not the same pos, move zombie to the better place
-            if current_pos != each_zombie:
-                self.add_zombie(current_pos[0], current_pos[1])
-                self._zombie_list.remove(each_zombie)
+            # move zombie to the better place
+            self._zombie_list[self._zombie_list.index(each_zombie)] = current_pos
+
 
 # Start up gui for simulation - You will need to write some code above
 # before this will work without errors
 
-#poc_zombie_gui.run_gui(Zombie(30, 40))
-
-# new_grid = Zombie(30, 30, [], [], [(2, 2)])
-# print new_grid.compute_distance_field('human')
-# # expected
-# # [[4, 3, 2],
-# #  [3, 2, 1],
-# #  [2, 1, 0]]
+# poc_zombie_gui.run_gui(Zombie(30, 40))
