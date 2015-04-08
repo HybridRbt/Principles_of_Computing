@@ -107,6 +107,23 @@ def merge_sort(list1):
 
 # Function to generate all strings for the word wrangler game
 
+def insert(a_cha, a_string):
+    """
+    Insert a character into all possible positions in a string.
+    :param a_cha: a character
+    :param a_string: a string
+    :return: list of strings
+    """
+    result = []
+    for index in range(len(a_string)):
+        new_string1 = a_string[0: index]
+        new_string2 = a_string[index:]
+        formed_string = new_string1 + a_cha + new_string2
+        result.append(formed_string)
+
+    result.append(a_string + a_cha)
+    return result
+
 def gen_all_strings(word):
     """
     Generate all strings that can be composed from the letters in word
@@ -117,8 +134,29 @@ def gen_all_strings(word):
 
     This function should be recursive.
     """
-    return []
+    result = []
+    if len(word) == 0:
+        result = word
+        return result
 
+    if len(word) == 1:
+        result.append("")
+        result.append(word)
+        return result
+
+    # 1. Split the input word into two parts: the first character (first) and the remaining part (rest).
+    first = word[0]
+    rest = word[1:]
+    # 2. Use gen_all_strings to generate all appropriate strings for rest. Call this list rest_strings.
+    rest_strings = gen_all_strings(rest)
+    # 3. For each string in rest_strings, generate new strings by inserting the initial character, first, in all possible positions within the string.
+    for each_string in rest_strings:
+        result.append(each_string)
+        new_strings = insert(first, each_string)
+        for a_string in new_strings:
+            result.append(a_string)
+    # 4. Return a list containing the strings in rest_strings as well as the new strings generated in step 3.
+    return result
 
 # Function to load words from a file
 

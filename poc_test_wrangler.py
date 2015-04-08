@@ -59,7 +59,6 @@ def test32():
     print str(l1) + '\n' + str(l2)
     print pw.merge(l1, l2)
 
-
 # test for merge_sort
 def test33():
     l1 = '456816327810'
@@ -68,6 +67,16 @@ def test33():
     print pw.merge_sort(l1)
 
 
-test33()
+# test for gen_all_strings
+def test34():
+    l1 = 'aab'
+
+    print l1
+    print sorted(pw.gen_all_strings(l1))
+
+
+test34()
+print sorted(["", "b", "a", "ab", "ba", "a", "ab", "ba", "aa", "aa", "aab", "aab", "aba", "aba", "baa", "baa"])
+
 
 
