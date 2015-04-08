@@ -43,7 +43,6 @@ def test3():
     print str(l1) + '\n' + str(l2)
     print pw.merge(l1, l2)
 
-
 # test for merge
 def test31():
     l1 = ''
@@ -51,7 +50,6 @@ def test31():
 
     print str(l1) + '\n' + str(l2)
     print pw.merge(l1, l2)
-
 
 # test for merge
 def test32():
@@ -62,5 +60,14 @@ def test32():
     print pw.merge(l1, l2)
 
 
-test32()
+# test for merge_sort
+def test33():
+    l1 = '456816327810'
+
+    print l1
+    print pw.merge_sort(l1)
+
+
+test33()
+
 
