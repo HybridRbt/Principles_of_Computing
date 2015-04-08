@@ -66,7 +66,6 @@ def test33():
     print l1
     print pw.merge_sort(l1)
 
-
 # test for gen_all_strings
 def test34():
     l1 = 'aab'
@@ -75,8 +74,16 @@ def test34():
     print sorted(pw.gen_all_strings(l1))
 
 
-test34()
-print sorted(["", "b", "a", "ab", "ba", "a", "ab", "ba", "aa", "aa", "aab", "aab", "aba", "aba", "baa", "baa"])
+# test for file open
+def test35():
+    fn = "testForFileOpen.txt"
+    fc = pw.load_words(fn)
+    print fc
+
+
+test35()
+# test34()
+# print sorted(["", "b", "a", "ab", "ba", "a", "ab", "ba", "aa", "aa", "aab", "aab", "aba", "aba", "baa", "baa"])
 
 
 

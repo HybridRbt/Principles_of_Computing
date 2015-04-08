@@ -136,7 +136,7 @@ def gen_all_strings(word):
     """
     result = []
     if len(word) == 0:
-        result = word
+        result.append(word)
         return result
 
     if len(word) == 1:
@@ -166,8 +166,11 @@ def load_words(filename):
 
     Returns a list of strings.
     """
-    return []
-
+    result = []
+    new_file = open(filename, 'r')
+    for line in new_file:
+        result.append(line.strip('\n'))
+    return result
 
 def run():
     """
