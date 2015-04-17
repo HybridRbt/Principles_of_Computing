@@ -24,7 +24,7 @@ class Grid:
 
     def __str__(self):
         """
-        Return multi-line string representation for grid
+        Return multi-line string represenation for grid
         """
         ans = ""
         for row in range(self._grid_height):
@@ -43,6 +43,7 @@ class Grid:
         Return the width of the grid for use in the GUI
         """
         return self._grid_width
+
 
     def clear(self):
         """
@@ -113,6 +114,6 @@ class Grid:
         Takes point in screen coordinates and returns index of
         containing cell
         """
-        return point[1] / cell_size, point[0] / cell_size
+        return (point[1] / cell_size, point[0] / cell_size)
 
 
