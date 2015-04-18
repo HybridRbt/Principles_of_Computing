@@ -7,13 +7,12 @@ import poc_ttt_provided as provided
 
 # Set timeout, as mini-max can take a long time
 #import codeskulptor
-#codeskulptor.set_timeout(60)
+# codeskulptor.set_timeout(160)
 
 # SCORING VALUES - DO NOT MODIFY
 SCORES = {provided.PLAYERX: 1,
           provided.DRAW: 0,
           provided.PLAYERO: -1}
-
 
 def mm_move(board, player):
     """
@@ -25,44 +24,30 @@ def mm_move(board, player):
     """
     # always maximizing.
     # initialize answers
-    score = provided.PLAYERX
-    move = (-1, -1)
-    new_board = board.clone()
+    if board.check_win() != None:
+        return SCORES[board.check_win()], (-1, -1)
 
-    empty_square = new_board.get_empty_squares()
-    if len(empty_square) == 1:
-        # only one choice, make this move
-        new_board.move(empty_square[0][0], empty_square[0][1], player)
-        move = (empty_square[0][0], empty_square[0][1])
-        # check if this move wins
-        if new_board.check_win() != None:
-            # check only when the game is finished
-            if new_board.check_win() == provided.DRAW:
-                # this move draws, return draw
-                score = provided.DRAW
-            elif new_board.check_win() == player:
-                # this move wins, return corresponding score
-                score = SCORES[player]
-            elif new_board.check_win() != player:
-                score = SCORES[player]
-            return score, move
+    empty_square = board.get_empty_squares()
 
+    final = (-1, (-1, -1))
     # else recursively compute scores
     for each_square in empty_square:
+        new_board = board.clone()
         new_board.move(each_square[0], each_square[1], player)
-        move = (each_square[0], each_square[1])
-        if mm_move(new_board, provided.switch_player(player))[0] == SCORES[player]:
-            # this move wins, return corresponding score
-            score = SCORES[player]
-            return score, move
-        else:
-            if mm_move(new_board, provided.switch_player(player))[0] == SCORES[provided.DRAW]:
-                # this move draws, return draw
-                score = provided.DRAW
-            else:
-                score = SCORES[player]
-            return score, move
 
+        new_player = provided.switch_player(player)
+        score = mm_move(new_board, new_player)[0]
+        move = (each_square[0], each_square[1])
+
+        if score * SCORES[player] == 1:
+            # this move wins, return corresponding score
+            return score, move
+        elif score * SCORES[player] > final[0]:
+            final = (score, move)
+        elif final[0] == -1:
+            final = (final[0], move)
+
+    return final[0] * SCORES[player], final[1]
 
 
 def move_wrapper(board, player, trials):
