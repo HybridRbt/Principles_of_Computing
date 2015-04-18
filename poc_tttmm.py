@@ -23,7 +23,46 @@ def mm_move(board, player):
     of the given board and the second element is the desired move as a
     tuple, (row, col).
     """
-    return 0, (-1, -1)
+    # always maximizing.
+    # initialize answers
+    score = provided.PLAYERX
+    move = (-1, -1)
+    new_board = board.clone()
+
+    empty_square = new_board.get_empty_squares()
+    if len(empty_square) == 1:
+        # only one choice, make this move
+        new_board.move(empty_square[0][0], empty_square[0][1], player)
+        move = (empty_square[0][0], empty_square[0][1])
+        # check if this move wins
+        if new_board.check_win() != None:
+            # check only when the game is finished
+            if new_board.check_win() == provided.DRAW:
+                # this move draws, return draw
+                score = provided.DRAW
+            elif new_board.check_win() == player:
+                # this move wins, return corresponding score
+                score = SCORES[player]
+            elif new_board.check_win() != player:
+                score = SCORES[player]
+            return score, move
+
+    # else recursively compute scores
+    for each_square in empty_square:
+        new_board.move(each_square[0], each_square[1], player)
+        move = (each_square[0], each_square[1])
+        if mm_move(new_board, provided.switch_player(player))[0] == SCORES[player]:
+            # this move wins, return corresponding score
+            score = SCORES[player]
+            return score, move
+        else:
+            if mm_move(new_board, provided.switch_player(player))[0] == SCORES[provided.DRAW]:
+                # this move draws, return draw
+                score = provided.DRAW
+            else:
+                score = SCORES[player]
+            return score, move
+
 
 
 def move_wrapper(board, player, trials):
@@ -40,5 +79,5 @@ def move_wrapper(board, player, trials):
 # Both should be commented out when you submit for
 # testing to save time.
 
-# provided.play_game(move_wrapper, 1, False)
+#provided.play_game(move_wrapper, 1, False)
 # poc_ttt_gui.run_gui(3, provided.PLAYERO, move_wrapper, 1, False)
