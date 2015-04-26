@@ -153,13 +153,50 @@ class Puzzle:
 
         return True
 
+    def move_zero_tile_up(self, up_distance):
+        move_string = ""
+        for move_up in range(up_distance):
+            move_string += "u"
+
+        return move_string
+
+    def move_one_cycle_down(self, cycle_height):
+        # move the target tile back to the target position
+        # only move on the left
+        move_string = "l"
+        for move_dw in range(cycle_height):
+            move_string += "d"
+
+        move_string += "r"
+        for move_uo in range(cycle_height - 1):
+            move_string += "u"
+
+        return move_string
+
+    def move_target_back_down_in_cycle(self, num_of_cycle):
+        move_string = ""
+        for num in range(num_of_cycle):
+            move_string += self.move_one_cycle_down(num_of_cycle)
+
+        return move_string
+
     def solve_interior_tile(self, target_row, target_col):
         """
         Place correct tile at target position
         Updates puzzle and returns a move string
         """
-        # replace with your code
-        return ""
+        move_string = ""
+        # move the zero tile (target_row, target_col) up and across to the target tile.
+        move_string += self.move_zero_tile_up(target_row)
+
+        # move target tile to target
+        move_string += self.move_target_back_down_in_cycle(target_row - 1)
+
+        # move zero tile to keep invariant
+        move_string += "ld"
+
+        self.update_puzzle(move_string)
+        return move_string
 
     def solve_col0_tile(self, target_row):
         """
